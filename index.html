@@ -35,9 +35,9 @@
 
     <!-- Main Container -->
     <div class="flex-1 flex flex-col overflow-hidden max-w-5xl w-full mx-auto p-2 md:p-4">
-        
+
         <main class="flex-1 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col overflow-hidden shadow-2xl">
-            
+
             <!-- Chat Window -->
             <div id="chatWindow" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 chat-scroll">
                 <!-- Initial Welcome Message -->
@@ -53,42 +53,42 @@
 
             <!-- Bottom Controls Container -->
             <div class="p-3 md:p-4 bg-slate-900/95 border-t border-slate-800/80 space-y-3">
-                
+
                 <!-- Quick Preset Questions (Placed ABOVE input box) -->
                 <div class="flex items-center gap-2 overflow-x-auto pb-1 chat-scroll text-xs">
                     <span class="text-slate-500 font-medium whitespace-nowrap pl-1">Γρήγορες Ερωτήσεις:</span>
-                    
-                    <button onclick="askPreset('Πώς αντιμετωπίζω ένα αλάρμ (Alarm) στο CypCut;')" 
+
+                    <button onclick="askPreset('Πώς αντιμετωπίζω ένα αλάρμ (Alarm) στο CypCut;')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         🚨 Αντιμετώπιση Alarm
                     </button>
 
-                    <button onclick="askPreset('Πώς κάνω εύρεση μηδενικού σημείου μετά από διακοπή;')" 
+                    <button onclick="askPreset('Πώς κάνω εύρεση μηδενικού σημείου μετά από διακοπή;')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         🎯 Εύρεση Μηδενικού
                     </button>
 
-                    <button onclick="askPreset('Πώς ρυθμίζω τις παραμέτρους κοπής και διάτρησης (Pierce);')" 
+                    <button onclick="askPreset('Πώς ρυθμίζω τις παραμέτρους κοπής και διάτρησης (Pierce);')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         🔥 Παράμετροι Κοπής & Pierce
                     </button>
 
-                    <button onclick="askPreset('Τι είναι το Fly Cut (Flying Cut) και πώς ρυθμίζεται;')" 
+                    <button onclick="askPreset('Τι είναι το Fly Cut (Flying Cut) και πώς ρυθμίζεται;')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         ⚡ Λειτουργία Fly Cut
                     </button>
 
-                    <button onclick="askPreset('Πώς βάζω Lead Lines (γραμμές εισόδου/εξόδου);')" 
+                    <button onclick="askPreset('Πώς βάζω Lead Lines (γραμμές εισόδου/εξόδου);')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         📐 Ρύθμιση Lead Lines
                     </button>
 
-                    <button onclick="askPreset('Πώς κάνω ευθυγράμμιση λαμαρίνας (Edge Seek / Alignment);')" 
+                    <button onclick="askPreset('Πώς κάνω ευθυγράμμιση λαμαρίνας (Edge Seek / Alignment);')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         📐 Ευθυγράμμιση Λαμαρίνας
                     </button>
 
-                    <button onclick="askPreset('Πώς βάζω Micro-joints (μικροσυνδέσεις);')" 
+                    <button onclick="askPreset('Πώς βάζω Micro-joints (μικροσυνδέσεις);')"
                         class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
                         🔗 Χρήση Micro-joints
                     </button>
@@ -96,15 +96,15 @@
 
                 <!-- Input Form -->
                 <form id="chatForm" onsubmit="handleUserSubmit(event)" class="flex gap-2">
-                    <input 
-                        type="text" 
-                        id="userInput" 
-                        placeholder="Ρωτήστε οτιδήποτε σχετικά με το CypCut και τη λειτουργία του..." 
+                    <input
+                        type="text"
+                        id="userInput"
+                        placeholder="Ρωτήστε οτιδήποτε σχετικά με το CypCut και τη λειτουργία του..."
                         class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                         autocomplete="off"
                     />
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-6 py-3 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-indigo-600/20 active:scale-95">
                         <span>Αποστολή</span>
                         <span>➔</span>
@@ -155,7 +155,7 @@
             },
             {
                 keywords: ['καθαρισμός', 'φακός', 'φακος', 'ακροφύσιο', 'ακροφυσιο', 'nozzle', 'lens', 'συντήρηση', 'συντηρηση'],
-                answer: "**Βασικές Οδηγίες Συντήρησης Οπτικών & Ακροφυσίου:**\n1. **Ακροφύσιο (Nozzle):** Ελέγχετε καθημερινά για εκδορές, καψίματα ή επικαθίσεις. Κάντε *Center Nozzle* για ευθυγράμμιση δέσμης.\n2. **Προστατευτικό Τζαμάκι (Protective Window):** Ελέγχετε για σκόνη ή καμένα σωματίδια. Καθαρίζετε αποκ南ληστικά με φακούς/οινόπνευμα υψηλής καθαρότητας και πανάκι χωρίς χνούδι.\n3. **Καθαρισμός Κεφαλής:** Πάντα σε περιβάλλον χωρίς ρεύματα αέρα για αποφυγή σκόνης στο εσωτερικό της κεφαλής."
+                answer: "**Βασικές Οδηγίες Συντήρησης Οπτικών & Ακροφυσίου:**\n1. **Ακροφύσιο (Nozzle):** Ελέγχετε καθημερινά για εκδορές, καψίματα ή επικαθίσεις. Κάντε *Center Nozzle* για ευθυγράμμιση δέσμης.\n2. **Προστατευτικό Τζαμάκι (Protective Window):** Ελέγχετε για σκόνη ή καμένα σωματίδια. Καθαρίζετε αποκλειστικά με φακούς/οινόπνευμα υψηλής καθαρότητας και πανάκι χωρίς χνούδι.\n3. **Καθαρισμός Κεφαλής:** Πάντα σε περιβάλλον χωρίς ρεύματα αέρα για αποφυγή σκόνης στο εσωτερικό της κεφαλής."
             }
         ];
 
@@ -183,7 +183,7 @@
 
         function getAssistantResponse(query) {
             const lowerQuery = query.toLowerCase();
-            
+
             // Search match in KB
             for (const item of kb) {
                 if (item.keywords.some(kw => lowerQuery.includes(kw))) {
@@ -205,19 +205,19 @@
 
             const avatar = document.createElement('div');
             avatar.className = `w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg ${
-                sender === 'user' 
-                    ? 'bg-slate-700 text-slate-200' 
+                sender === 'user'
+                    ? 'bg-slate-700 text-slate-200'
                     : 'bg-indigo-600 text-white shadow-indigo-500/20'
             }`;
             avatar.innerText = sender === 'user' ? '👤' : '🤖';
 
             const bubble = document.createElement('div');
             bubble.className = `rounded-2xl p-4 text-sm max-w-[85%] leading-relaxed shadow-md ${
-                sender === 'user' 
-                    ? 'bg-indigo-600 text-white rounded-tr-none' 
+                sender === 'user'
+                    ? 'bg-indigo-600 text-white rounded-tr-none'
                     : 'bg-slate-800/90 text-slate-200 border border-slate-700/60 rounded-tl-none'
             }`;
-            
+
             // Format newlines & bold text
             bubble.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
