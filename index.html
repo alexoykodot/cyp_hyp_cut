@@ -184,12 +184,15 @@
             }
         ];
 
+        // "Μεσάζοντας" (Cloudflare Worker) που κρατάει το Gemini API key κρυφό
+        const AI_ENDPOINT = "https://hypcypcut-ai.ramnalialexandra.workers.dev";
+
         function askPreset(questionText) {
             document.getElementById('userInput').value = questionText;
             handleUserSubmit(new Event('submit'));
         }
 
-        function handleUserSubmit(event) {
+        async function handleUserSubmit(event) {
             event.preventDefault();
             const inputEl = document.getElementById('userInput');
             const query = inputEl.value.trim();
@@ -199,26 +202,50 @@
             appendMessage(query, 'user');
             inputEl.value = '';
 
-            // Generate Answer
-            setTimeout(() => {
-                const response = getAssistantResponse(query);
-                appendMessage(response, 'bot');
-            }, 300);
+            // 1) Πρώτα ψάχνει στην τοπική βάση γνώσης (άμεσο, χωρίς κόστος)
+            const kbAnswer = getKbAnswer(query);
+            if (kbAnswer) {
+                setTimeout(() => appendMessage(kbAnswer, 'bot'), 300);
+                return;
+            }
+
+            // 2) Αν δεν βρεθεί, ρωτάει το AI (Gemini) μέσω του μεσάζοντα
+            const thinkingBubble = appendMessage('Σκέφτομαι… 🤔', 'bot');
+            try {
+                const aiAnswer = await askAI(query);
+                updateMessage(thinkingBubble, aiAnswer);
+            } catch (err) {
+                updateMessage(thinkingBubble, fallbackAnswer(query));
+            }
         }
 
-        function getAssistantResponse(query) {
+        function getKbAnswer(query) {
             const lowerQuery = query.toLowerCase();
             const wordCount = query.trim().split(/\s+/).filter(Boolean).length;
 
-            // Search match in KB - short, targeted answer for brief/specific questions,
-            // full detailed answer for longer/broader questions
+            // Στοχευμένη σύντομη απάντηση για σύντομες/συγκεκριμένες ερωτήσεις,
+            // πλήρης αναλυτική απάντηση για εκτενέστερες/γενικές ερωτήσεις
             for (const item of kb) {
                 if (item.keywords.some(kw => lowerQuery.includes(kw))) {
                     return wordCount <= 4 ? item.short : item.full;
                 }
             }
+            return null;
+        }
 
-            // Fallback general response for any other manual question
+        async function askAI(question) {
+            const res = await fetch(AI_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question })
+            });
+            if (!res.ok) throw new Error('AI request failed');
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            return data.answer;
+        }
+
+        function fallbackAnswer(query) {
             return "Έλαβα την ερώτησή σου: **\"" + query + "\"**.\n\n" +
                    "Βάσει του εγχειριδίου χρήσης του CypCut V6.5:\n" +
                    "• Για τεχνικές παραμέτρους ή σφάλματα, βεβαιώσου ότι έχεις επιλέξει το σωστό Layer υλικού και τις αντίστοιχες τιμές Pierce/Cut Speed.\n" +
@@ -253,6 +280,12 @@
             chatWindow.appendChild(msgDiv);
 
             chatWindow.scrollTop = chatWindow.scrollHeight;
+            return bubble;
+        }
+
+        function updateMessage(bubble, text) {
+            bubble.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            document.getElementById('chatWindow').scrollTop = document.getElementById('chatWindow').scrollHeight;
         }
     </script>
 </body>
