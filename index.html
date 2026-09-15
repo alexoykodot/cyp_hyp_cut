@@ -22,7 +22,7 @@
 <body class="bg-slate-950 text-slate-100 h-screen flex flex-col font-sans antialiased">
 
     <!-- Header -->
-    <header class="bg-slate-900 border-b border-slate-800 p-4 shadow-lg flex items-center justify-between">
+    <header class="bg-slate-900 border-b border-slate-800 p-4 shadow-lg flex items-center justify-between gap-3 flex-wrap">
         <div class="flex items-center space-x-3">
             <div class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
@@ -30,7 +30,15 @@
             </div>
             <h1 class="text-lg md:text-xl font-bold tracking-wider text-slate-100">Lasercutter <span class="text-red-500">A</span>ss<span class="text-red-500">i</span>stant</h1>
         </div>
-        <span class="text-xs font-mono bg-cyan-950 text-cyan-400 px-3 py-1 rounded-full border border-cyan-800">Laser Manual Mode</span>
+
+        <div class="flex items-center gap-3">
+            <!-- System Toggle: HypCut / CypCut -->
+            <div id="systemToggle" class="flex bg-slate-950 border border-slate-700 rounded-full p-1 text-xs font-semibold">
+                <button id="btnHypcut" onclick="setSystem('hypcut')" class="px-3 py-1.5 rounded-full transition">HypCut</button>
+                <button id="btnCypcut" onclick="setSystem('cypcut')" class="px-3 py-1.5 rounded-full transition">CypCut</button>
+            </div>
+            <span class="text-xs font-mono bg-cyan-950 text-cyan-400 px-3 py-1 rounded-full border border-cyan-800">Laser Manual Mode</span>
+        </div>
     </header>
 
     <!-- Main Container -->
@@ -46,7 +54,7 @@
                         🤖
                     </div>
                     <div class="bg-slate-800/90 rounded-2xl p-4 text-slate-200 text-sm max-w-[85%] leading-relaxed border border-slate-700/60 shadow-md">
-                        Είμαι ο ψηφιακός σου βοηθός, μπορώ να σου απαντήσω την ερώτηση σε κάθε τι που χρειάζεσαι!
+                        Είμαι ο ψηφιακός σου βοηθός για <strong>HypCut</strong> και <strong>CypCut</strong>. Διάλεξε πάνω δεξιά ποιο σύστημα σε ενδιαφέρει, μετά διάλεξε κατηγορία από κάτω ή ρώτα με ελεύθερα οτιδήποτε.
                     </div>
                 </div>
             </div>
@@ -54,44 +62,15 @@
             <!-- Bottom Controls Container -->
             <div class="p-3 md:p-4 bg-slate-900/95 border-t border-slate-800/80 space-y-3">
 
-                <!-- Quick Preset Questions (Placed ABOVE input box) -->
-                <div class="flex items-center gap-2 overflow-x-auto pb-1 chat-scroll text-xs">
-                    <span class="text-slate-500 font-medium whitespace-nowrap pl-1">Γρήγορες Ερωτήσεις:</span>
-
-                    <button onclick="askPreset('Πώς αντιμετωπίζω ένα αλάρμ (Alarm) στο HypCut;')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        🚨 Αντιμετώπιση Alarm
-                    </button>
-
-                    <button onclick="askPreset('Πώς κάνω εύρεση μηδενικού σημείου μετά από διακοπή;')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        🎯 Εύρεση Μηδενικού
-                    </button>
-
-                    <button onclick="askPreset('Πώς ρυθμίζω τις παραμέτρους κοπής και διάτρησης (Pierce);')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        🔥 Παράμετροι Κοπής & Pierce
-                    </button>
-
-                    <button onclick="askPreset('Τι είναι το Fly Cut (Flying Cut) και πώς ρυθμίζεται;')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        ⚡ Λειτουργία Fly Cut
-                    </button>
-
-                    <button onclick="askPreset('Πώς βάζω Lead Lines (γραμμές εισόδου/εξόδου);')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        📐 Ρύθμιση Lead Lines
-                    </button>
-
-                    <button onclick="askPreset('Πώς κάνω ευθυγράμμιση λαμαρίνας (Edge Seek / Alignment);')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        📐 Ευθυγράμμιση Λαμαρίνας
-                    </button>
-
-                    <button onclick="askPreset('Πώς βάζω Micro-joints (μικροσυνδέσεις);')"
-                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
-                        🔗 Χρήση Micro-joints
-                    </button>
+                <!-- Category / Topic Browser -->
+                <div class="space-y-2 text-xs">
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1 chat-scroll" id="categoryBar">
+                        <span class="text-slate-500 font-medium whitespace-nowrap pl-1">Κατηγορίες:</span>
+                        <!-- category chips injected by JS -->
+                    </div>
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1 chat-scroll" id="topicBar">
+                        <!-- topic buttons injected by JS -->
+                    </div>
                 </div>
 
                 <!-- Input Form -->
@@ -99,7 +78,7 @@
                     <input
                         type="text"
                         id="userInput"
-                        placeholder="Ρωτήστε οτιδήποτε σχετικά με το HypCut και τη λειτουργία του..."
+                        placeholder="Ρωτήστε οτιδήποτε..."
                         class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                         autocomplete="off"
                     />
@@ -116,81 +95,658 @@
 
     <!-- Knowledge Base Script -->
     <script>
-        const kb = [
-            {
-                keywords: ['παραμέτρους κοπής', 'παραμετρους κοπης', 'ρυθμίσεις κοπής', 'ρυθμισεις κοπης', 'layer settings'],
-                short: "**Παράμετροι Κοπής:** Pierce (διάτρηση), Cutting Parameters (ταχύτητα/ύψος/αέριο) και Focus (εστίαση). Ρώτα με για καθεμία ξεχωριστά αν θες λεπτομέρειες.",
-                full: "**Ρύθμιση Παραμέτρων Κοπής (Layer Settings):**\n• **Pierce (Διάτρηση):** Ρυθμίζεται σε στάδια (Pierce 1, 2, 3) ανάλογα με το πάχος του υλικού. Ορίζονται ο χρόνος, η πίεση αερίου, η ισχύς και το ύψος διάτρησης.\n• **Cutting Parameters:** Καθορίζουν την ταχύτητα κοπής, το ύψος του ακροφυσίου (Cut Height), το είδος αερίου (O2, N2, Air) και την πίεση.\n• **Focus Pos:** Ρυθμίζει την εστίαση της δέσμης (θετικό focus για μεγάλα πάχη/O2, αρνητικό focus για ανοξείδωτο/N2)."
+        // =====================================================================
+        // Δομή: SYSTEMS[system].categories[].topics[]
+        // Οι κατηγορίες αντιστοιχούν 1:1 στα κεφάλαια των επίσημων manuals
+        // (HypCut v1.5 / FSCUT8000, CypCut v6.5) — όχι εφευρημένη ταξινόμηση.
+        // Κάθε topic: keywords (για αναζήτηση), short (σύντομη), full (αναλυτική).
+        // =====================================================================
+
+        const SYSTEMS = {
+            hypcut: {
+                label: 'HypCut',
+                categories: [
+                    // 1. Γενικά -------------------------------------------------
+                    {
+                        id: 'general', title: 'Γενικά',
+                        topics: [
+                            {
+                                keywords: ['τι είναι το hypcut', 'τι ειναι το hypcut', 'hyptronic', 'hypanel', 'γενικά hypcut', 'γενικα hypcut'],
+                                question: 'Τι είναι το HypCut και σε τι ελεγκτή τρέχει;',
+                                short: "Το **HypCut** είναι το πρόγραμμα κοπής της BOCHU για laser μεγάλης ισχύος. Τρέχει προεγκατεστημένο στον ελεγκτή **HypTronic/HyPanel** (EtherCAT).",
+                                full: "**Γενικά:**\nΤο HypCut φτιάχτηκε για laser μεγάλης ισχύος. Έχει έτοιμα μοντέλα κοπής, οργάνωση παραγωγής ανά παραγγελία και απλή χρήση με ενότητες (Plan, Production, Debug, Technique, Diagnosis, Maintenance, Settings).\nΈρχεται ήδη εγκατεστημένο στον ελεγκτή **HypTronic/HyPanel** (EtherCAT) και δουλεύει μόλις ανάψει. Ο ελεγκτής έχει επαναφορά με ένα κουμπί στις εργοστασιακές ρυθμίσεις, αν κάτι πάει στραβά.\nΓια αρχείο εγκατάστασης (αναβάθμιση/επαναφορά) χρειάζεται ο προμηθευτής ή η τεχνική υποστήριξη."
+                            }
+                        ]
+                    },
+                    // 2. Γρήγορη Εκκίνηση ----------------------------------------
+                    {
+                        id: 'quickstart', title: 'Γρήγορη Εκκίνηση',
+                        topics: [
+                            {
+                                keywords: ['ανοιγμα hypcut', 'άνοιγμα hypcut', 'εκκινηση hypcut', 'εκκίνηση hypcut', 'πρωτη φορα', 'πρώτη φορά'],
+                                question: 'Πώς ανοίγω το HypCut την πρώτη φορά;',
+                                short: "Βεβαιωθείτε ότι όλα είναι αναμμένα, διπλό κλικ στο εικονίδιο HypCut, και μόλις τελειώσει ο αυτοέλεγχος κάντε **Return Origin** (χωρίς αυτό, μόνο αργή χειροκίνητη κίνηση).",
+                                full: "**Άνοιγμα του HypCut:**\n1. Βεβαιωθείτε ότι όλα τα ηλεκτρολογικά είναι συνδεδεμένα και αναμμένα.\n2. Διπλό κλικ στο εικονίδιο HypCut. Φορτώνει και κάνει αυτοέλεγχο.\n3. Μόλις τελειώσει, ζητά **Return Origin** (η μηχανή πάει στο «σπίτι» της και μαθαίνει πού βρίσκεται).\n\nΧωρίς σωστή θέση, οι αυτοματισμοί και η ακρίβεια κοπής δεν δουλεύουν — αν δεν κάνετε Return Origin, βγάζει συναγερμό και επιτρέπει μόνο αργή κίνηση με το χέρι.\nΤο κουμπί **Return Zero** αναβοσβήνει → πατώντας το κάνει Return Origin. Είναι γκρι → πατώντας το κάνει Return Zero (μηδέν δουλειάς).\n⚠️ Αν υπάρχουν άλλοι συναγερμοί στην εκκίνηση, μηδενίστε τους πρώτα."
+                            },
+                            {
+                                keywords: ['οθονη hypcut', 'οθόνη hypcut', 'τι βλεπω', 'τι βλέπω', 'περιοχες οθονης', 'περιοχές οθόνης'],
+                                question: 'Τι βλέπω στην οθόνη του HypCut;',
+                                short: "6 περιοχές: γραμμή κατάστασης (πάνω), μηνύματα/συναγερμοί, κύριο μενού (9 ενότητες, αριστερά), πίνακας ελέγχου (δεξιά), πληροφορίες παραγωγής, κουμπιά κάτω.",
+                                full: "**Οθόνη HypCut:**\nΜαύρη περιοχή στο κέντρο = το σχέδιο. Λευκό πλαίσιο = το τραπέζι της μηχανής.\n1. **Γραμμή κατάστασης** (πάνω): κατάσταση, πού πάει η κεφαλή μετά την κοπή, κλείστρο, laser, ακολούθηση ύψους, αέριο, συναγερμός.\n2. **Μηνύματα/Συναγερμοί**: μαύρο = χωρίς πρόβλημα, κόκκινο = συναγερμός, κίτρινο = προειδοποίηση (διπλό κλικ = λεπτομέρειες).\n3. **Κύριο μενού** (αριστερά): οι 9 βασικές ενότητες.\n4. **Πίνακας ελέγχου** (δεξιά): τα κουμπιά που πατάτε συνέχεια (αν υπάρχει φυσικό πάνελ HyPanel, χρησιμοποιείτε τα πραγματικά κουμπιά).\n5. **Πληροφορίες παραγωγής**: βήμα, επιλογή δουλειάς, τεχνική.\n6. **Κουμπιά κάτω**: οι λειτουργίες της ενότητας που είστε."
+                            },
+                            {
+                                keywords: ['μαζικη παραγωγη', 'μαζική παραγωγή', 'ευελικτη παραγωγη', 'ευέλικτη παραγωγή', 'batch production', 'flexible production'],
+                                question: 'Ποια η διαφορά batch και flexible production;',
+                                short: "**Batch (μαζική):** σταθερό μηδέν, για πολλά κομμάτια σε τυποποιημένες λαμαρίνες. **Flexible (ευέλικτη):** κινητό μηδέν (εκεί που είναι η κεφαλή), για λίγα κομμάτια/ακανόνιστα υπολείμματα.",
+                                full: "**Τρόπος Παραγωγής:**\nΣτην ενότητα Production, πάνω αριστερά διαλέγετε:\n• **Batch production (μαζική):** Σταθερό μηδέν (σύστημα τεμαχίου) — το ορίζετε με Specify Zero ή εύρεση άκρης. Για πολλά κομμάτια σε τυποποιημένες λαμαρίνες, συνεχή παραγωγή.\n• **Flexible production (ευέλικτη):** Κινητό μηδέν — εκεί που είναι τώρα η κεφαλή, ή από εύρεση άκρης. Για λίγα κομμάτια, ακανόνιστες λαμαρίνες ή υπολείμματα."
+                            },
+                            {
+                                keywords: ['βημα βημα', 'βήμα βήμα', 'ροη εργασιας', 'ροή εργασίας', 'διαδικασια κοπης', 'διαδικασία κοπής', 'more settings', 'ρυθμισεις more'],
+                                question: 'Ποια είναι η ροή εργασίας βήμα-βήμα στο HypCut;',
+                                short: "Τρόπος παραγωγής → Άνοιγμα σχεδίου → Διόρθωση σχεδίου → Τεχνική κοπής → Μηδέν → Ρυθμίσεις (More) → Κοπή.",
+                                full: "**Η δουλειά βήμα-βήμα:**\n1. Διαλέγετε τρόπο παραγωγής (Batch/Flexible).\n2. **Άνοιγμα σχεδίου:** Open → Plan (ήδη μπηκε στο HypCut) ή Disk (νέο από USB/δίσκο). Μαζική: μόνο *.nrp/*.nrp2/*.lxd/*.lxds. Ευέλικτη: και *.dxf/*.nc.\n3. **Διόρθωση σχεδίου:** Graphic (κάτω) — σημείο αναφοράς, γραμμές εισόδου, αντιστάθμιση, μικρο-συνδέσεις, μέγεθος.\n4. **Τεχνική κοπής:** αν το σχέδιο δεν έχει «συνταγή», ανοίγει μόνο του το Select Technique. Αλλαγή με το χέρι: Production → Technique.\n5. **Μηδέν:** ευέλικτη = αυτόματα εκεί που είναι η κεφαλή (κάντε πρώτα Frame για ασφάλεια). Μαζική = ορίστε με Specify Zero.\n6. **More (ρυθμίσεις):** π.χ. Mark corner before cutting, Find edge before cutting, Pause after pre-pierce, Display modes.\n7. **Κοπή:** πριν πατήσετε Start — κανένας συναγερμός, σωστό σχέδιο/τεχνική/μηδέν. Frame πρώτα για να δείτε αν πέφτει μέσα στη λαμαρίνα."
+                            }
+                        ]
+                    },
+                    // 3. Προγραμματισμός (Plan) ----------------------------------
+                    {
+                        id: 'plan', title: 'Προγραμματισμός (Plan)',
+                        topics: [
+                            {
+                                keywords: ['plan module', 'προγραμματισμος', 'προγραμματισμός', 'cypnest import', 'φερνω σχεδια', 'φέρνω σχέδια', 'ιστορικο δουλειων'],
+                                question: 'Τι κάνει η ενότητα Plan στο HypCut;',
+                                short: "Το **Plan** συνεργάζεται με το CypNest: εισάγει δουλειές (nesting) μέσω δικτύου/USB, κρατά ιστορικό ολοκληρωμένων δουλειών, βγάζει αναφορές παραγωγικότητας.",
+                                full: "**Plan (Προγραμματισμός):**\nΣυνεργάζεται με το ξεχωριστό πρόγραμμα nesting **CypNest** — οργάνωση δουλειών/σχεδίων, πρόοδος παραγωγής, αναφορές, αντίγραφα ασφαλείας ιστορικού. Κάθε ολοκληρωμένη δουλειά αποθηκεύεται (για ξανακόψιμο/στατιστικά), και κάθε σχέδιο που ανοίγετε από δίσκο μπαίνει κι αυτό εδώ, με σειρά ημερομηνίας.\n\nΚουμπιά:\n• **Import:** φέρνει δουλειές CypNest από USB/δίκτυο στη λίστα Pending.\n• **Technique:** ορίζει τεχνική για την επιλεγμένη δουλειά/σχέδιο.\n• **Delete / Backup / Search / Pending / Finish** (σημειώνει τη δουλειά τελειωμένη).\n\nΡοή: επιλέγετε δουλειά → **Add** → όλα τα σχέδιά της πάνε στη σειρά παραγωγής δεξιά. Σημείωση: αλλαγή τεχνικής από το Plan αλλάζει και τη βιβλιοθήκη."
+                            }
+                        ]
+                    },
+                    // 4. Παραγωγή (Production) -----------------------------------
+                    {
+                        id: 'production', title: 'Παραγωγή (Production)',
+                        topics: [
+                            {
+                                keywords: ['πινακας πληροφοριων', 'πίνακας πληροφοριών', 'marker', 'σελιδοδεικτες', 'σελιδοδείκτες', 'current drawing', 'task cloud task status'],
+                                question: 'Τι δείχνει ο πίνακας πληροφοριών παραγωγής και τι είναι το Marker;',
+                                short: "Τρεις καρτέλες: **Task** (στοιχεία σχεδίου), **Cloud Task** (nesting από CypNest/CloudNest), **Status** (ρυθμίσεις + πραγματικός χρόνος). Το **Marker** σώζει έως 32 σημεία τραπεζιού για γρήγορη μετάβαση.",
+                                full: "**Πίνακας Πληροφοριών Παραγωγής:**\n• **Task:** στοιχεία τρέχοντος σχεδίου (σε nesting, όλα τα κομμάτια με μέγεθος/πλήθος).\n• **Cloud Task:** nesting που ήρθαν από CypNest/CloudNest.\n• **Status:** συνήθεις ρυθμίσεις, laser με το χέρι, στοιχεία σε πραγματικό χρόνο (Feed Speed, Coordinates, Beam/Size, Laser power, Nozzle distance).\n\n**Marker:** σώζετε θέσεις τραπεζιού (έως 32) για να πηγαίνει εκεί η κεφαλή γρήγορα — Marker → διαλέγετε σημείο → Current Coordinate ή γράφετε X,Y → μετά Locate To. Πριν πάει, ο Z ανεβαίνει τέρμα πάνω."
+                            },
+                            {
+                                keywords: ['επιλογη σχηματος', 'επιλογή σχήματος', 'transform', 'μετασχηματισμος', 'μετασχηματισμός', 'μεγεθος σχεδιου', 'μέγεθος σχεδίου', 'size scale center'],
+                                question: 'Πώς επιλέγω και αλλάζω μέγεθος σε σχήμα;',
+                                short: "Κλικ ή κουτί επιλογής (αριστερά→δεξιά = μόνο ό,τι είναι ολόκληρο μέσα, δεξιά→αριστερά = ό,τι ακουμπά). Transform: Translate/Rotate/Align/Flip. Size → Modify Size για ακριβές μέγεθος.",
+                                full: "**Επιλογή & Μέγεθος (Διόρθωση σχεδίου):**\n**Επιλογή:** Κλικ σε σχήμα, ή κουτί με σύρσιμο: αριστερά→δεξιά (μπλε, συνεχής) = πιάνει μόνο ό,τι είναι ολόκληρο μέσα· δεξιά→αριστερά (γαλάζιο, διακεκομμένη) = πιάνει ό,τι ακουμπά το κουτί. Shift+κλικ για προσθήκη/αφαίρεση.\n**Μέγεθος/Μετασχηματισμοί:** Transform: Translate, Rotate, Align, Flip. Size ▼ έχει 7 έτοιμα (π.χ. 100mm, 2X). Για ακριβές νούμερο: Size → Modify Size. Λουκέτο κλειστό = κρατά αναλογίες. Scale Center = ποιο σημείο μένει σταθερό. Exclude Techs = υπολογίζει μέγεθος χωρίς γραμμές εισόδου/αντιστάθμιση.\n⚠️ Γραμμές εισόδου και αντιστάθμιση δεν μεγαλώνουν μαζί με το σχήμα."
+                            },
+                            {
+                                keywords: ['παραμετρους κοπης', 'παραμέτρους κοπής', 'παραμετρων κοπης', 'παραμέτρων κοπής', '7 layers', 'στρωματα κοπης', 'στρώματα κοπής', 'nozzle distance', 'layer settings', 'cutting parameters'],
+                                question: 'Πώς ρυθμίζω τις παραμέτρους κοπής (layers);',
+                                short: "Υπάρχουν **7 στρώματα (layers)** — 7 «συνταγές» με δική τους ταχύτητα, ισχύ, αέριο, **Nozzle distance** (όχι «Cut Height»). Mode: Standard / Fixed height cut / Out-plate follow.",
+                                full: "**Ρυθμίσεις Κοπής (Production → Technique):**\nΥπάρχουν 7 layers (στρώματα), η καθεμία με δική της ταχύτητα/ισχύ/αέριο/απόσταση ακροφυσίου.\n**Mode:** Standard (κανονική) / Fixed height cut (σταθερό ύψος, Z κλειδωμένος) / Out-plate follow (ξεκινά έξω από τη λαμαρίνα σε σταθερό ύψος, ακολουθεί μόλις «δει» λαμαρίνα — για κόψιμο λαμαρίνας στα δύο).\n**Βασικές ρυθμίσεις:** Cut Speed (φρενάρει σε αρχές/τέλη/γωνίες) · **Nozzle distance** (πόσο ψηλά είναι το ακροφύσιο — αυτός είναι ο σωστός όρος, όχι «Cut Height») · Cut gas (αέρας/O2/N2) · Gas pressure · Laser power (το «ταβάνι» ισχύος) · Duty cycle · Pulse freq · Beam · Focus · Kerf width · Dwell time · Laser off delay.\n**Ομαλή αρχή/τέλος:** Smooth Start/End (χωριστές ρυθμίσεις για τα πρώτα/τελευταία mm).\n**Precision Cut:** Speedy cut (ταχύτητα, για πλέγματα) / Fine cut (ακρίβεια, τρύπες βιδών) / Precision fly cut / Custom.\n⚠️ Οι τιμές είναι ενδεικτικές — ρυθμίζονται ανά υλικό/laser/πίεση. Λάθος ρυθμίσεις = κακή κοπή ή ζημιά."
+                            },
+                            {
+                                keywords: ['pierce', 'διάτρηση', 'διατρηση', 'smooth pierce', 'flash pierce', 'segment pierce', 'incremental pierce'],
+                                question: 'Τι τύποι Pierce (διάτρησης) έχει το HypCut;',
+                                short: "**Smooth Pierce** (frog leap, σταδιακή εστίαση), **Incremental Pierce** (παραμονή ανά ύψος), **Flash Pierce** (χοντρές λαμαρίνες), **Segment Pierce** (στάδια με δικές τους ρυθμίσεις).",
+                                full: "**Τύποι Pierce (Production → Technique → Piercing, §4.3.2):**\n• **Smooth Pierce:** Η κεφαλή «πηδά» (frog leap) στο σημείο, ρυθμίζοντας στον δρόμο την εστίαση. Το laser είναι αναμμένο και κατεβαίνει σιγά-σιγά· μόλις φτάσει ύψος/εστίαση κοπής, αρχίζει να κόβει.\n• **Incremental Pierce:** Μένει λίγο σε κάθε ύψος και μετά κατεβαίνει με σταθερή ταχύτητα στο επόμενο, με αναμμένο laser.\n• **Flash Pierce:** Για χοντρές λαμαρίνες — αλλάζει γρήγορα συχνότητα/εστίαση/ισχύ για γρήγορη τρύπα.\n• **Segment Pierce:** Τρυπά σε στάδια, σε διαφορετικά ύψη, το καθένα με δική του ισχύ/συχνότητα/duty και χρόνο."
+                            },
+                            {
+                                keywords: ['power curve', 'καμπυλη ισχυος', 'καμπύλη ισχύος'],
+                                question: 'Τι είναι η καμπύλη ισχύος (Power Curve);',
+                                short: "Στη γωνία η κεφαλή φρενάρει· η καμπύλη ισχύος ρίχνει την ισχύ/συχνότητα μαζί με την ταχύτητα ώστε η γωνία να μην καίγεται. Ισχύει μόνο στην κοπή, όχι στη διάτρηση.",
+                                full: "**Power Curve (§4.3.3):**\nΓιατί: στη γωνία η κεφαλή φρενάρει. Αν το laser μείνει στην ίδια ισχύ, η γωνία καίγεται ή βγάζει σκουριά. Με την καμπύλη, η ισχύς (και προαιρετικά η συχνότητα) πέφτει μαζί με την ταχύτητα. Ισχύει μόνο στην κοπή.\n**Modify Curve:** οριζόντια η ταχύτητα, κάθετα η ισχύς/συχνότητα. Διπλό κλικ = νέο σημείο.\n**Μορφή:** Linear (ευθείες), Segmented (σκαλοπάτια), Smooth (ομαλή). Μπορείτε να την αντιγράψετε."
+                            },
+                            {
+                                keywords: ['lead line', 'lead', 'γραμμη εισοδου', 'γραμμή εισόδου', 'leadline', 'lead slow descent', 'lead circle'],
+                                question: 'Πώς ρυθμίζω τη γραμμή εισόδου (Leadline);',
+                                short: "Η γραμμή εισόδου ρυθμίζεται στο **Leadline** (§4.3.4): Leadline Param (ταχύτητα/duty/συχνότητα), Lead Slow Descent (αργή κάθοδος), Lead Circle (κυκλική είσοδος), Lead Variable Focus.",
+                                full: "**Γραμμή Εισόδου — Leadline (§4.3.4):**\n(Η γραμμή εισόδου είναι το μικρό κομμάτι από το σημείο διάτρησης μέχρι το σχήμα.)\n• **Leadline Param:** Ταχύτητα, duty, συχνότητα — μόνο για τη γραμμή εισόδου.\n• **Lead Slow Descent:** Ανάβει laser σε ύψος Descent height και κατεβαίνει σιγά-σιγά ενώ κόβει τη γραμμή εισόδου. Stable distance = πόση απόσταση κόβει σε κανονικό ύψος πριν φτάσει στο σχήμα.\n• **Lead Circle:** Αν η είσοδος έχει κύκλο, δική του ταχύτητα.\n• **Lead Variable Focus:** Αλλάζει εστίαση όσο κόβει τη γραμμή εισόδου."
+                            },
+                            {
+                                keywords: ['corner technique', 'γωνιες', 'γωνίες', 'defilm', 'μεμβρανη', 'μεμβράνη', 'διορθωση εστιασης λογω ζεστης'],
+                                question: 'Τι είναι το Corner Technique και το Defilm;',
+                                short: "**Corner Technique:** σε μυτερές γωνίες κόβει λίγο πριν/μετά με χωριστές ρυθμίσεις. **Defilm:** περνά πρώτα με χαμηλή ισχύ για να κάψει τη μεμβράνη προστασίας/σκουριά, μετά κόβει κανονικά.",
+                                full: "**Γωνίες (Corner Technique, §4.3.5):** Σε γωνίες πιο μυτερές από όσο ορίζετε, κόβει λίγο πριν και λίγο μετά τη γωνία με χωριστές ρυθμίσεις — πολύ καλύτερες γωνίες.\n**Μεμβράνη (Defilm, §4.3.6):** Πρώτα περνά τη γραμμή με χαμηλή ισχύ (ρυθμίσεις Defilm) για να κάψει τη μεμβράνη προστασίας ή τη σκουριά, και μετά κόβει κανονικά.\n**Διόρθωση εστίασης λόγω ζέστης (§4.3.7):** Όσο ζεσταίνεται η κεφαλή, η εστίαση «γλιστράει» λίγο — διορθώνεται με το Offset factor."
+                            },
+                            {
+                                keywords: ['focus', 'εστίαση', 'εστιαση', 'focus pos'],
+                                question: 'Τι είναι το Focus στο HypCut;',
+                                short: "Το **Focus** ρυθμίζει πού εστιάζει η δέσμη σε σχέση με την επιφάνεια. Το manual δεν δίνει σταθερό κανόνα θετικού/αρνητικού — ελέγχεται και διορθώνεται και λόγω ζέστης (Offset factor).",
+                                full: "**Focus (Εστίαση Δέσμης):**\nΡυθμίζει το σημείο εστίασης της δέσμης σε σχέση με την επιφάνεια του υλικού. Υπάρχει ξεχωριστά η **Διόρθωση εστίασης λόγω ζέστης** (§4.3.7, Offset factor) και το **Auto Focus Test** (§5.6) που βρίσκει το πραγματικό μηδέν εστίασης της κεφαλής κόβοντας δοκιμαστικές γραμμές σε διαφορετική εστίαση και κοιτώντας ποια βγάζει την πιο λεπτή τομή.\n⚠️ Ο συχνός κανόνας «θετικό focus για μεγάλα πάχη/O2, αρνητικό για ανοξείδωτο/N2» είναι γενική πρακτική κοπής με laser, αλλά **δεν αναφέρεται ρητά** στο επίσημο εγχειρίδιο HypCut — να επαληθεύεται στην πράξη, όχι σαν επίσημη οδηγία."
+                            },
+                            {
+                                keywords: ['smart pierce', 'smart end', 'process monitor', 'molten pool monitor', 'εξυπνες τεχνικες', 'έξυπνες τεχνικές', 'blt', 'co-edge pierce detection'],
+                                question: 'Τι κάνουν οι έξυπνες τεχνικές BLT (Process Monitor, Smart Pierce κ.λπ.);',
+                                short: "Μόνο σε κεφαλές BLT: **Process Monitor** (ελέγχει αν κόπηκε πέρα-πέρα), **Smart Pierce** (καταλαβαίνει πότε τρύπησε), **Smart End** (καθαρό τέλος χωρίς γρέζι), **Molten Pool Monitor** (βλέπει το λιωμένο μέταλλο).",
+                                full: "**Έξυπνες Τεχνικές (κεφαλές BLT, §4.3.8):**\n• **Process Monitor:** Ελέγχει όσο κόβει αν η λαμαρίνα κόπηκε πέρα-πέρα· αν όχι, σβήνει, γυρίζει πίσω και ξανακόβει (Recut incomplete cutting). Χρειάζεται Enable Smart Monitor στο Config Tool.\n• **Smart Pierce:** Καταλαβαίνει πότε τρύπησε — αν τρύπησε νωρίτερα ξεκινά αμέσως να κόβει.\n• **Smart End:** Καθαρό τέλος στα κλειστά σχήματα, χωρίς γρέζι/σκουριά.\n• **Co-edge pierce detection** (κεφαλή BLT-H): σε κοινές πλευρές καταλαβαίνει μόνο του αν χρειάζεται τρύπα.\n• **Molten Pool Monitor** (κεφαλή BLT-M/BLT-MA): «βλέπει» το λιωμένο μέταλλο, διορθώνει εστίαση/ταχύτητα, κεντράρει δέσμη.\n• **Cutting head cooling:** αέρας ψύξης που συνεχίζει λίγο μετά το σβήσιμο — μακρύτερη ζωή ακροφυσίου."
+                            },
+                            {
+                                keywords: ['fly cut', 'flying cut', 'γρηγορη κοπη', 'γρήγορη κοπή', 'linear fly cut', 'circle fly cut', 'obround', 'one-path'],
+                                question: 'Πώς δουλεύει το Fly Cut στο HypCut;',
+                                short: "Το **Fly Cut** ενώνει πλευρές που είναι στην ίδια ευθεία σε μία συνεχή κίνηση — η κεφαλή περνά όλη τη σειρά χωρίς να σταματά. 4 τρόποι: Linear, Circle, Obround, One-Path. Κάντε πρώτα Sort.",
+                                full: "**Fly Cut (Ιπτάμενη Κοπή, §4.2.4.4):**\nΌταν έχετε πολλά ίδια απλά σχήματα σε σειρές (ορθογώνια, κύκλοι, πολύγωνα), το Fly Cut ενώνει τις πλευρές που είναι στην ίδια ευθεία σε μία συνεχή κίνηση — η κεφαλή περνά όλη τη σειρά χωρίς να σταματά. Πολύ πιο γρήγορα. Κάντε πρώτα ταξινόμηση (Sort).\n**Τρόποι:**\n• **Linear Fly Cut** (ορθογώνια σε σειρές): Start position, Tolerance (πόσο μπορεί να «ξεφεύγει» μια πλευρά), Max smooth joint (ομαλή σύνδεση αν η στροφή είναι μικρή).\n• **Circle Fly Cut** (κύκλοι σε σειρές): Max interval two circles.\n• **Obround** (καψούλες), **One-Path**."
+                            },
+                            {
+                                keywords: ['ευθυγράμμιση', 'ευθυγραμμιση', 'edge', 'find edge', 'γωνία λαμαρινας', 'align', 'capacitive', 'circle centering', 'photoelectric', 'optical find edge'],
+                                question: 'Πώς κάνω εύρεση άκρης λαμαρίνας (Find Edge) στο HypCut;',
+                                short: "**Capacitive Find Edge** (3-point γρήγορο / 4-point ακριβές / 6-point για λεπτά φύλλα), **Single Side 2-Point** (μόνο γωνία), **Circle Centering** (δίσκοι), **Photoelectric** και **Optical** (κάμερα).",
+                                full: "**Find Edge (§4.4):**\nΗ λαμαρίνα σπάνια μπαίνει τέλεια ίσια — η μηχανή βρίσκει τις άκρες, υπολογίζει την κλίση και γυρίζει το σχέδιο. Αποτέλεσμα πάνω δεξιά.\n⚠️ Δώστε μέγεθος λαμαρίνας ίδιο ή λίγο μικρότερο από το πραγματικό.\n• **Capacitive Find Edge** (αισθητήρας ύψους): 3-point quick (συνηθισμένο) / 4-point precise (πιο ακριβές) / Six-point Slat-Avoid (λεπτές λαμαρίνες, αποφεύγει τα δόντια τραπεζιού).\n• **Single Side 2-Point:** για ακανόνιστες λαμαρίνες με μία ίσια πλευρά — βρίσκει μόνο τη γωνία, όχι το μηδέν.\n• **Circle Centering:** μόνο για στρογγυλές λαμαρίνες — μηδέν στο κέντρο (Zero Reference → Center), 3 σημεία στην περιφέρεια.\n• **Photoelectric Find Edge:** μέσω Config Tool → Advanced → Find Edge Config, με μέτρηση απόστασης φωτοκύτταρου-ακροφυσίου.\n• **Optical Find Edge:** με κάμερα, πιο ακριβές (ξεχωριστό εγχειρίδιο).\n⚠️ Πρώτα Return Origin, και να υπάρχει λαμαρίνα κάτω από την κεφαλή. Για χαλύβδινες λαμαρίνες η κλίση δεν πρέπει να ξεπερνά τις 10°."
+                            },
+                            {
+                                keywords: ['micro-joint', 'micro joint', 'μικροσύνδεση', 'μικροσυνδεση', 'modify microjoint'],
+                                question: 'Πώς δουλεύουν τα Micro-joints;',
+                                short: "Αφήνουν μικρό άκοπο σημείο ώστε το κομμάτι να μην πέφτει. Αλλάζετε μέγεθος υπαρχόντων με **Modify Microjoint** (χρειάζεται Adjust Microjoint and Gap in tech table, Settings → Global).",
+                                full: "**Micro-joints:**\nΑφήνουν ελάχιστο άκοπο σημείο ώστε τα κομμένα εξαρτήματα να μην πέφτουν ή προκαλέσουν σύγκρουση με την κεφαλή.\n**Modify Microjoint** (§4.3.1): αλλάζετε το μέγεθος υπαρχόντων micro-joints χωρίς να αλλάξετε το σχέδιο (π.χ. σε παύση, αν βγαίνουν πολύ μεγάλα/μικρά) — χρειάζεται ενεργό «Adjust Microjoint and Gap in tech table» στο Settings → Global. **Smooth Microjoint** = τα περνά με χαμηλή ισχύ.\n**Modify Gap:** αλλάζει το μήκος του κενού την ώρα της κοπής και σε παύση, υπερισχύει του σχεδίου."
+                            },
+                            {
+                                keywords: ['frame', 'dry run', 'δοκιμη διαδρομης', 'δοκιμή διαδρομής', 'περιδιαβαση', 'περιδιάβαση'],
+                                question: 'Τι κάνουν το Frame και το Dry Run;',
+                                short: "**Frame:** η κεφαλή διαγράφει το εξωτερικό περίγραμμα με αναμμένη κόκκινη δέσμη (χωρίς λέιζερ/αέριο) για επιβεβαίωση θέσης. **Dry Run:** όλη η διαδρομή χωρίς laser/αέριο/ακολούθηση (μόνο X,Y) — μόνο expert+.",
+                                full: "**Frame & Dry Run:**\n• **Frame:** Η κεφαλή κάνει ορθογώνιο γύρω από το σχέδιο με αναμμένη την κόκκινη δέσμη-δείκτη — βλέπετε αν πέφτει σωστά πάνω στη λαμαρίνα, χωρίς λέιζερ/αέριο.\n• **Dry Run** (όχι «Dry Cut»): Όλη η διαδρομή κοπής χωρίς laser, αέριο, ακολούθηση ύψους — κινούνται μόνο οι άξονες X, Y. Πρόβα πριν κόψετε. Διαθέσιμο μόνο με δικαιώματα **expert και πάνω**."
+                            },
+                            {
+                                keywords: ['nesting', 'νεστινγκ', 'cypnest', 'fill up', 'array'],
+                                question: 'Πώς γίνεται το nesting στο HypCut;',
+                                short: "Το HypCut ΔΕΝ κάνει πλήρες nesting μόνο του — συνεργάζεται με το ξεχωριστό **CypNest** (εισαγωγή nrp/nrp2 μέσω Plan). Μέσα έχει μόνο **Fill Up** (γέμισμα φύλλου) και **Array** (3 τύποι: ορθογώνια, κ.λπ.).",
+                                full: "**Nesting στο HypCut:**\nΔΕΝ κάνει πλήρες nesting μόνο του — συνεργάζεται με το ξεχωριστό λογισμικό **CypNest**, από όπου εισάγονται τα αρχεία (nrp/nrp2) μέσω δικτύου ή USB στο **Plan** module.\nΜέσα στο HypCut υπάρχουν μόνο:\n• **Fill Up:** γεμίζει όλη τη λαμαρίνα με ένα σχήμα, βάσει μεγέθους λαμαρίνας, Parts gap και περιθωρίου.\n• **Array:** υπάρχουν τρεις τύποι — Rectangular Array (πλήθος γραμμών/στηλών, απόσταση, κατεύθυνση) και άλλοι δύο."
+                            },
+                            {
+                                keywords: ['quick cutoff', 'γρηγορη κοπη πλακας', 'γρήγορη κοπή πλάκας', 'κοψιμο πλακας', 'κόψιμο πλάκας', 'cutoff'],
+                                question: 'Πώς κάνω γρήγορο κόψιμο λαμαρίνας (Quick CutOff);',
+                                short: "Κόβει τη λαμαρίνα στα δύο με τις παραμέτρους του τρέχοντος σχεδίου. Λεπτή (≤4mm) / χοντρή (≥4mm) — στη λεπτή τα πρώτα 10mm σε σταθερό ύψος. Feedrate 0-120%. Και από το WKB.",
+                                full: "**Quick CutOff (§4.5):**\nΚόβει τη λαμαρίνα στα δύο με τις ρυθμίσεις του τρέχοντος σχεδίου (μαζική → προεπιλογή η συνταγή «μεγάλου περιγράμματος»· ευέλικτη/Debug → τη διαλέγετε).\n**Thick/Thin plate:** μαζική → βγαίνει από το πάχος (έως 4mm λεπτή, από 4mm χοντρή) — στη λεπτή τα πρώτα 10mm κόβονται σε σταθερό ύψος γιατί η άκρη σηκώνεται εύκολα.\n**Feedrate:** 0%-120%. **Extension cut:** κόβει λίγο πέρα από την άκρη ώστε να ξεκολλήσει σίγουρα (όταν η κοπή δεν είναι κάθετη).\nΜπορεί να ενεργοποιηθεί κι από το ασύρματο τηλεχειριστήριο **WKB**."
+                            },
+                            {
+                                keywords: ['καμερα ασφαλειας', 'κάμερα ασφαλείας', 'monitor', 'safety mode', 'ανθρωπος στη μηχανη', 'pedestrian'],
+                                question: 'Πώς δουλεύει η κάμερα ασφαλείας (Monitor);',
+                                short: "Αν η κάμερα δει άνθρωπο στη μηχανή → συναγερμός/**Safety Mode** (περιορίζει ταχύτητα). Ρύθμιση από Config Tool → Advanced → Monitor, όριο ταχύτητας από Config Tool → Alarm.",
+                                full: "**Κάμερα Ασφαλείας — Monitor (§4.6):**\nConfig Tool → Advanced → Monitor → ρύθμιση, μετά δεξί κλικ στην εικόνα → Parameter Setting → Pedestrian Detection (λογαριασμός/κωδικός/IP κάμερας).\nΑν η κάμερα δει άνθρωπο → συναγερμός.\n**Safety Mode:** περιορίζει την ταχύτητα όταν μπει άνθρωπος (όριο: Config Tool → Alarm → Max travel speed in safety mode). Υπάρχει και κουμπί Safety Mode στο χειριστήριο WKB. Βγαίνει από Safety Mode μόνο όταν ΚΑΙ η κάμερα δεν βλέπει κανέναν ΚΑΙ το κουμπί WKB είναι κλειστό."
+                            },
+                            {
+                                keywords: ['καθαρισμός ακροφυσιου', 'καθαρισμός ακροφυσίου', 'ακροφύσιο', 'ακροφυσιο', 'nozzle', 'clean nozzle', 'replace nozzle', 'trigger mode'],
+                                question: 'Πώς γίνεται ο καθαρισμός/η αλλαγή ακροφυσίου;',
+                                short: "**Clean Nozzle** (Production → Auxiliary → Auto Nozzle): βούρτσα + φύσημα. **Replace Nozzle:** αυτόματη αλλαγή από σταθμό αποθήκευσης, με Trigger Mode βάσει τρυπών/λαμαρινών/μέτρων/χρόνου/τεχνικής.",
+                                full: "**Συντήρηση Ακροφυσίου (§4.11-4.12):**\n• **Clean Nozzle:** Ενεργοποιείται από Config Tool → Advanced → Nozzle Maintenance → Enable auto clean nozzle. Μετά: Production → Auxiliary → Auto Nozzle → Clean Nozzle — μια βούρτσα, με κίνηση και φύσημα, βγάζει τη σκουριά. Cleaning position = κέντρο βούρτσας· αν η κεφαλή δεν είναι εκεί βγαίνει μήνυμα.\n• **Replace Nozzle:** Enable nozzle replacement στο Config Tool. Αυτόματη αλλαγή από σταθμό αποθήκευσης ακροφυσίων (γενικά «BOCHU nozzle replacement fixture» — το εγχειρίδιο δεν αναφέρει συγκεκριμένο μοντέλο αριθμό).\n**Trigger Mode:** πότε καθαρίζει/αλλάζει — μετά από τόσες τρύπες, λαμαρίνες, μέτρα κοπής, χρόνο, ή βάσει τεχνικής. **Threshold** = το όριο «κούρασης».\nΗ γενική συντήρηση όλων των εξαρτημάτων παρακολουθείται στο **Maintenance** module."
+                            },
+                            {
+                                keywords: ['border contour', 'unloading position', 'θεση ξεφορτωσης', 'maintenance area', 'περιοχη συντηρησης', 'remnant position', 'θεση υπολειμματος', 'external powder marking', 'σημανση με πουδρα', 'custom menu layout', 'countersink', 'φρεζατες τρυπες', 'cycle production', 'κυκλικη παραγωγη', 'mark corner', 'σημαδια στις γωνιες', 'multi-task production', 'πολλες δουλειες', 'out-plate height'],
+                                question: 'Τι άλλες βοηθητικές λειτουργίες έχει το Production;',
+                                short: "Border Contour, Mark Corner, Cycle Production, Multi-Task Production, Remnant Position, Unloading/Maintenance Area, External Powder Marking, Custom Menu Layout, Countersink — όλα στο **Production → Auxiliary**.",
+                                full: "**Λοιπές Βοηθητικές Λειτουργίες Production (§4.13-4.23):**\n• **Border Contour:** φτιάχνει περίγραμμα γύρω από το εξωτερικό περίγραμμα κομματιού (Parts gap = πόσο μεγαλώνει).\n• **Mark Corner:** σαν το Frame — χαράζει 4 «L» στις γωνίες του ορθογωνίου γύρω από το σχέδιο (μόνο σε στάση), βολικό σε μεγάλες λαμαρίνες.\n• **Cycle Production:** συνεχής παραγωγή με αυτόματη αλλαγή παλέτας (χρειάζεται τραπέζι high-low/υδραυλικό/διπλή παλέτα).\n• **Multi-Task Production:** 1 Station-1 Plate ή 1 Station Multi-Plate, με Single/List Order Production, Manual/Auto Switch.\n• **Remnant Position:** μετά από αρχείο υπολείμματος από CypNest — 2 σημεία στην εικόνα + 2 στο πραγματικό υπόλειμμα → Locate to Remnant Zero.\n• **Unloading Position / Maintenance Area:** θέσεις πριν αλλαγή παλέτας / για πρόσβαση συντήρησης (Config Tool → Advanced → Advanced).\n• **External Powder Marking:** σήμανση με πούδρα, χρειάζεται βαθμονόμηση απόστασης από την κεφαλή laser.\n• **Custom Menu Layout:** αλλαγή σειράς κουμπιών.\n• **Countersink:** φρεζάτες τρύπες με laser (ξεχωριστό εγχειρίδιο)."
+                            }
+                        ]
+                    },
+                    // 5. Δοκιμές (Debug) ------------------------------------------
+                    {
+                        id: 'debug', title: 'Δοκιμές (Debug)',
+                        topics: [
+                            {
+                                keywords: ['debug', 'δοκιμες', 'δοκιμές', 'simulate', 'προσομοιωση', 'προσομοίωση', 'path error', 'σφαλμα διαδρομης'],
+                                question: 'Τι κάνει η ενότητα Debug (Simulate, Path Error);',
+                                short: "Το **Debug** κόβει με κινητό μηδέν, για δοκιμές/ρυθμίσεις. **Simulate:** «ταινία» της κοπής χωρίς να κινείται η μηχανή. **Path Error:** συγκρίνει πραγματική διαδρομή με τη σωστή.",
+                                full: "**Debug (Δοκιμές):**\nΓια δοκιμές κοπής και έλεγχο μηχανής (κυρίως τεχνικοί). Κόβει κι εδώ, αλλά μόνο με κινητό μηδέν. Ίδια εργαλεία σχεδίου με το Production.\n• **Simulate (§5.2):** Μετά την ταξινόμηση, δείχνει όλη την κοπή στην οθόνη χωρίς να κινείται η μηχανή — βλέπετε σειρά κομματιών και μέσα σε κάθε κομμάτι.\n• **Path Error (§5.3):** Η κεφαλή κάνει πρόβα πάνω στο σχέδιο· η μπλε γραμμή στο τέλος είναι η πραγματική διαδρομή (από τα μοτέρ) — τη συγκρίνετε με τη σωστή και διορθώνετε ρυθμίσεις. Collect Command Data σώζει εντολές/αποτέλεσμα, Monitor Laser Status ελέγχει αν ανάβει/σβήνει σωστά."
+                            },
+                            {
+                                keywords: ['laser long shot', 'auto focus test', 'tape shot', 'δοκιμη κεφαλης', 'δοκιμή κεφαλής', 'δοκιμη laser'],
+                                question: 'Πώς κάνω δοκιμές κεφαλής/laser (Auto Focus Test, Tape Shot);',
+                                short: "**Auto Focus Test:** κόβει δοκιμαστικές γραμμές σε διαφορετική εστίαση, βρίσκει τη λεπτότερη τομή = σωστή εστίαση. **Tape Shot:** ελέγχει λερωμένο φακό/τζάμι. **Laser Long Shot:** μετατόπιση εστίασης λόγω ζέστης.",
+                                full: "**Δοκιμές Κεφαλής/Laser (§5.5-5.7):**\n• **Laser Long Shot:** Δοκιμάζει πώς επηρεάζουν ισχύς/duty/συχνότητα τη μετατόπιση εστίασης όταν ζεσταίνεται η κεφαλή. Μόνο expert/developer.\n• **Auto Focus Test:** Βρίσκει το πραγματικό «μηδέν» εστίασης. Διαλέγετε δέσμη/ρυθμίσεις → Create Drawing (πολλές γραμμές, καθεμία σε άλλη εστίαση) → Technique (αέριο/ταχύτητα) → Start. Κοιτάτε ποια γραμμή έχει την πιο λεπτή τομή, γράφετε τον αριθμό της στο Focus offset → Write in Offset.\n• **Tape Shot:** Ελέγχει λερωμένο φακό/τζάμι — βάζετε ταινία κάτω από το ακροφύσιο, ρίχνετε laser, ελέγχετε το σημάδι."
+                            },
+                            {
+                                keywords: ['cycle test', 'system latency offset', 'δοκιμη επαναληψης', 'δοκιμή επανάληψης', 'αντισταθμιση καθυστερησης'],
+                                question: 'Τι είναι το Cycle Test και το System Latency Offset;',
+                                short: "**Cycle Test:** Time-Phase / Z Dry Run / XY Dry Run δοκιμές επανάληψης. **System Latency Offset:** διόρθωση θέσης λόγω καθυστέρησης συστήματος, με δοκιμαστική κοπή τετραγώνων.",
+                                full: "**Cycle Test & System Latency Offset (§5.8-5.9):**\n• **Cycle Test:** Time-Phase Test (χρονισμός), Z Dry Run Test (Z πάνω-κάτω), XY Dry Run Test (X/Y χωρίς κοπή).\n• **System Latency Offset:** (θέλει πρώτα μέτρηση System Latency στο Diagnosis → Machine). Φτιάχνει σχέδιο δοκιμής με σειρά τετραγώνων, καθένα με άλλη διόρθωση· βρίσκετε το καλύτερο και γράφετε τη διόρθωση στο Write in offset. Για να κόψει με αυτές τις ρυθμίσεις, Start εδώ (αλλιώς κόβει με τις ρυθμίσεις του Production → Technique)."
+                            }
+                        ]
+                    },
+                    // 6. Βιβλιοθήκη Τεχνικών (Technique) --------------------------
+                    {
+                        id: 'technique', title: 'Βιβλιοθήκη Τεχνικών',
+                        topics: [
+                            {
+                                keywords: ['βιβλιοθηκη τεχνικων', 'βιβλιοθήκη τεχνικών', 'technique library', 'technique hub', 'φιλτρο τεχνικων'],
+                                question: 'Πώς δουλεύει η βιβλιοθήκη τεχνικών (Technique);',
+                                short: "Κεντρική βιβλιοθήκη όλων των «συνταγών» κοπής, φιλτραρισμένη ανά υλικό/πάχος/αέριο/ισχύ/κεφαλή. Modify/Delete/Set as common, Load/Save to File (*.hpm), Technique Hub (προτεινόμενες τεχνικές online).",
+                                full: "**Technique (Βιβλιοθήκη Τεχνικών, Κεφ. 6):**\n• **Φίλτρο:** ανά υλικό, πάχος, αέριο, ισχύ, μοντέλο κεφαλής.\n• **Search:** αναζήτηση με λέξη.\n• **Κουμπιά γραμμής:** Modify (αλλαγή, ενημερώνεται η ώρα)· Delete· Set as common (αγαπημένη, φαίνεται στην καρτέλα Home).\n• **Load:** φέρνει αρχεία τεχνικής από υπολογιστή. **Save to File:** σώζει σε αρχείο *.hpm.\n• **Technique Hub** (ανοίγει από Settings → Global → Production settings): με σύνδεση δικτύου, διαθέσιμο το Recommended Technique."
+                            }
+                        ]
+                    },
+                    // 7. Διάγνωση (Diagnosis) -------------------------------------
+                    {
+                        id: 'diagnosis', title: 'Διάγνωση (Diagnosis)',
+                        topics: [
+                            {
+                                keywords: ['αλαρμ', 'αλάρμ', 'alarm', 'σφάλμα', 'σφαλμα', 'προειδοποίηση', 'error', 'alarm log', 'ιστορικο συναγερμων'],
+                                question: 'Πώς αντιμετωπίζω ένα Alarm στο HypCut;',
+                                short: "Η κίνηση σταματάει αυτόματα, η μπάρα γίνεται κόκκινη/κίτρινη. Διπλό κλικ στο μήνυμα → **Diagnosis → Alarm Log** με αιτία/λύση. Λύστε πρώτα το πρόβλημα πριν συνεχίσετε.",
+                                full: "**Αντιμετώπιση Alarm (§7.9):**\nΤο HypCut παρακολουθεί τα πάντα όσο δουλεύει. Σε συναγερμό: κόκκινη μπάρα πάνω, σταματά την κίνηση, οι περισσότερες λειτουργίες κλειδώνουν μέχρι να λυθεί.\nΔιπλό κλικ στο μήνυμα → πηγαίνει στο **Diagnosis → Alarm Log** με αιτία και λύση.\nΆλλα μηνύματα (warning/hint/information) φαίνονται σε άλλα χρώματα — δεν σταματούν τη μηχανή αλλά διαβάστε τα έγκαιρα.\nΣημείωση: κάποια alarms θέλουν χειροκίνητο reset — ρυθμίζεται από **Config Tool → Alarm → All alarms in production require manual release**."
+                            },
+                            {
+                                keywords: ['diagnosis machine', 'motion control', 'status monitor', 'range measurement', 'interferometer', 'συμβολομετρο', 'ballbar', 'swivel axis', 'bevel', 'λοξη κοπη'],
+                                question: 'Τι εργαλεία έχει η Διάγνωση Μηχανής;',
+                                short: "Status Monitor (καμπύλες), Motion Control (Inertia/System Latency/Circle Error Measurement, Drive Optimization), Range Measurement (τερματικά), Συμβολόμετρο, Ballbar, Swivel Axis (λοξή κοπή/Bevel).",
+                                full: "**Διάγνωση Μηχανής — Machine (§7.1):**\n• **Status Monitor:** καμπύλες από δεδομένα συστήματος (άξονες, αισθητήρας ύψους, IO, κεφαλή BLT).\n• **Motion Control:** κατάσταση αξόνων, σήματα σπιτιού/τερματικών. Εργαλεία: Inertia Measurement, System Latency, Circle Error Measurement, Drive Optimization.\n• **Range Measurement:** βρίσκει τερματικά X/Y, υπολογίζει σωστά όρια λογισμικού (μετά από Return Origin).\n• **Συμβολόμετρο (Interferometer):** μέτρηση με φως, για μεγάλη διαδρομή σε δύο κομμάτια (Segmented interferometer program).\n• **Ballbar:** μετρά τον πραγματικό κύκλο της κεφαλής vs τέλειο κύκλο.\n• **Swivel Axis / Bevel (λοξή κοπή):** Enable Bevel Feature στο Config Tool, Swing Calibration, Bevel quick cutoff/cutoff line."
+                            },
+                            {
+                                keywords: ['io', 'εισοδοι εξοδοι', 'είσοδοι έξοδοι', 'height controller diagnosis', 'αισθητηρας υψους διαγνωση', 'laser head diagnosis', 'κεφαλη διαγνωση'],
+                                question: 'Πώς ελέγχω IO, αισθητήρα ύψους και κεφαλή στη Διάγνωση;',
+                                short: "**IO:** ζωντανές είσοδοι/έξοδοι (27 είσοδοι, 20 έξοδοι). **Height Controller:** βαθμονόμηση χωρητικότητας, Function Test τερματικών. **Laser Head:** αισθητήρες BLT σε πραγματικό χρόνο ή Adjust Focus.",
+                                full: "**IO, Height Controller, Laser Head (§7.2-7.4):**\n• **IO:** βλέπετε ζωντανά τις εισόδους/εξόδους όσο κόβει (27 είσοδοι, 20 έξοδοι) — βοηθά σε πρόβλημα καλωδίωσης/αισθητήρα. Limit αναμμένο = πάτησε τερματικό. PWM = laser on/off.\n• **Height Controller:** Information display (τι κάνει ο Z, Auto Adjust), Capacitance Curve, Function Test (Input status για τερματικά, Output test για φρένο/οδηγό Z), Current capacitance.\n• **Laser Head:** κεφαλές BLT έχουν αισθητήρες πραγματικού χρόνου, δοκιμή μοτέρ εστίασης, αυτόματο κεντράρισμα δέσμης· άλλες κεφαλές μόνο Adjust Focus."
+                            },
+                            {
+                                keywords: ['laser status', 'αερια διαγνωση', 'gas way diagnosis', 'pressure test', 'καμερα vision', 'κάμερα vision', 'peripherals', 'chiller', 'ψυκτης'],
+                                question: 'Πώς ελέγχω laser, αέρια και ψύκτη στη Διάγνωση;',
+                                short: "**Laser:** κλείστρο, ετοιμότητα, ώρες λειτουργίας. **Gas:** Gas Calibration, Gas Way Diagnosis, Pressure Test. **Vision:** κάμερα/ανθρωποανίχνευση. **Peripherals:** ψύκτης νερού (chiller).",
+                                full: "**Laser, Gas, Vision, Peripherals (§7.5-7.8):**\n• **Laser:** κατάσταση laser — κλείστρο, αν είναι έτοιμο, προειδοποιήσεις/συναγερμοί, συνολικές ώρες λειτουργίας.\n• **Gas:** Gas Calibration (αντιστοιχία τάσης-πίεσης αναλογικής βαλβίδας), Gas Way Diagnosis (αν το κύκλωμα είναι καλό — σταθερή πίεση, χρόνος σταθεροποίησης/ανόδου), Pressure Test (στόχος vs πραγματική πίεση).\n• **Vision:** στοιχεία κάμερας, βαθμονόμηση, παρακολούθηση τραπεζιού.\n• **Peripherals:** ψύκτης νερού (chiller) — κρατά σταθερή θερμοκρασία στο νερό ψύξης του laser."
+                            }
+                        ]
+                    },
+                    // 8. Συντήρηση (Maintenance) ----------------------------------
+                    {
+                        id: 'maintenance', title: 'Συντήρηση (Maintenance)',
+                        topics: [
+                            {
+                                keywords: ['maintenance module', 'συντηρηση εξαρτηματων', 'συντήρηση εξαρτημάτων', 'ωρες λειτουργιας εξαρτηματος'],
+                                question: 'Πώς παρακολουθεί η μηχανή τη συντήρηση των εξαρτημάτων;',
+                                short: "Το **Maintenance** μετρά ώρες/απόσταση κάθε εξαρτήματος (laser, κρεμαγιέρα, μειωτήρες, μοτέρ, βαλβίδες αερίου) και ειδοποιεί όταν περάσουν τα όρια.",
+                                full: "**Maintenance (Κεφ. 8):**\nΜετρά πόσο δούλεψε κάθε εξάρτημα (laser, κρεμαγιέρα, μειωτήρες, μοτέρ, βαλβίδες αερίου κ.ά.) και, όταν περάσουν τα όρια, ειδοποιεί και προτείνει συντήρηση — ώστε να χαλάει σπανιότερα και να κρατά περισσότερα χρόνια."
+                            }
+                        ]
+                    },
+                    // 9. Ρυθμίσεις (Settings) -------------------------------------
+                    {
+                        id: 'settings', title: 'Ρυθμίσεις (Settings)',
+                        topics: [
+                            {
+                                keywords: ['global settings κινηση', 'ρυθμισεις κινησης', 'ρυθμίσεις κίνησης', 'travel speed', 'cutting acc', 'curve accuracy'],
+                                question: 'Τι ρυθμίσεις κίνησης υπάρχουν στο Settings → Global;',
+                                short: "X/Y travel speed/acc (μετακινήσεις), Cutting acc/LPF (κοπή), Curve/Corner accuracy, X/Y Jog Speed. ⚠️ Μόνο εκπαιδευμένοι τεχνικοί (expert) — λάθος ρυθμίσεις = σοβαρός κίνδυνος.",
+                                full: "**Settings → Global — Κίνηση (§9.1.1):**\n⚠️ Λάθος ρυθμίσεις εδώ μπορούν να προκαλέσουν σοβαρό κίνδυνο, ακόμα και τραυματισμό ή θάνατο. Μόνο εκπαιδευμένοι τεχνικοί (expert).\n• **X/Y travel speed/acc:** ταχύτητα/επιτάχυνση μετακίνησης (όχι κοπής).\n• **Cutting acc / Cutting LPF:** μέγιστη επιτάχυνση στην κοπή και πόσο «μαλακά» αλλάζει (jerk).\n• **Curve/Corner accuracy:** μικρότερο = πιο ακριβές αλλά πιο αργό.\n• **X/Y Axis Jog Speed:** ταχύτητα βελακιών (χαμηλή/μέτρια/υψηλή)."
+                            },
+                            {
+                                keywords: ['ρυθμισεις αεριου', 'ρυθμίσεις αερίου', 'gas open delay', 'gas switch delay', 'φυσηματα', 'φυσήματα', 'cooling point delay'],
+                                question: 'Τι ρυθμίσεις αερίου (delays/φυσήματα) υπάρχουν;',
+                                short: "**Καθυστερήσεις:** Gas open delay, First gas-on delay, Gas switch delay, Cooling point delay. **Φυσήματα:** πριν κόψει, ανοιγοκλείνει το αέριο για να φύγει η σκόνη από το τζάμι προστασίας.",
+                                full: "**Αέριο — Καθυστερήσεις & Φυσήματα (§9.1.2):**\n**Καθυστερήσεις:** Gas open delay (αναμονή να έρθει αέριο πριν ανάψει laser) · First gas-on delay (επιπλέον την πρώτη φορά) · Gas switch delay (σταθεροποίηση πίεσης σε αλλαγή αερίου) · Cooling point delay · Gas on early · System latency.\n**Φυσήματα** (πριν κόψει, ανοιγοκλείνει το αέριο για να φύγει σκόνη από το τζάμι προστασίας — ζει περισσότερο): Gas pressure, Duration, Interval, Blow at Start, Blow at Resume."
+                            },
+                            {
+                                keywords: ['ακολουθηση υψους ρυθμισεις', 'ακολούθηση ύψους ρυθμίσεις', 'frog leap', 'lift height', 'soft limit protection'],
+                                question: 'Τι ρυθμίσεις ακολούθησης ύψους υπάρχουν στο Global;',
+                                short: "**Frog leap** (άλμα βατράχου — ανεβαίνει και προχωρά σε τόξο), Lift height, Short travel no lift, Fly cut overcut, Soft limit protection, Disable force return origin.",
+                                full: "**Ακολούθηση Ύψους — Global (§9.1.3):**\n• **Frog leap lift:** η κεφαλή ανεβαίνει και προχωρά μαζί σε τόξο (πιο γρήγορες μετακινήσεις). Frog Leap height / Lift height / Max Frog Land ρυθμίζουν το ύψος.\n• **Short travel no lift:** αν το επόμενο κομμάτι είναι κοντά, δεν σηκώνεται καθόλου.\n• **Fly cut overcut:** ιπτάμενη κοπή πάνω από υπερκοπές.\n• **Soft limit protection:** προειδοποιεί αν μια κίνηση θα βγει εκτός ορίων.\n• **Disable force return origin:** δεν ζητά Return Origin στην εκκίνηση — ⚠️ προσοχή."
+                            },
+                            {
+                                keywords: ['αλλες ρυθμισεις παραγωγης', 'άλλες ρυθμίσεις παραγωγής', 'resume pierce when alarm released', 'auto match technique', 'recut incomplete cutting', 'pierce deviation alarm'],
+                                question: 'Ποιες άλλες σημαντικές ρυθμίσεις παραγωγής υπάρχουν στο Global;',
+                                short: "Resume pierce when alarm released, Auto match technique (CypNest), Recut incomplete cutting, Pierce Deviation Alarm, Disable touchscreen, Gas safety pressure — δεκάδες μικρο-ρυθμίσεις (§9.1.4).",
+                                full: "**Άλλες Ρυθμίσεις Παραγωγής — Global (§9.1.4, ενδεικτικά):**\n• **Resume pierce when alarm released:** μόλις μηδενίσετε συναγερμό επαφής, ξανατρυπά και συνεχίζει αυτόματα.\n• **Auto match technique:** σχέδια από CypNest παίρνουν μόνα τους τεχνική βάσει υλικού/πάχους/αερίου.\n• **Recut incomplete cutting:** ξανακόβει όπου ο έλεγχος βρει ότι δεν κόπηκε πέρα-πέρα.\n• **Pierce Deviation Alarm:** ελέγχει αν μετακινήθηκε η λαμαρίνα στις θέσεις προ-διάτρησης.\n• **Disable touchscreen, Gas safety pressure, Adjust kerf offset in tech table, Dynamic Defilm, Label Auto Sort** και πολλές ακόμα — ρωτήστε με για συγκεκριμένη αν τη χρειάζεστε."
+                            },
+                            {
+                                keywords: ['height controller settings', 'ρυθμισεις αισθητηρα υψους', 'follow error', 'z travel range', 'quick follow'],
+                                question: 'Τι ρυθμίσεις έχει ο αισθητήρας ύψους (Settings → Height Controller);',
+                                short: "Z travel range/speed/acceleration, Max follow height, Follow Error (alarm), Local Capacitance Drop, Realtime calibration, Quick follow, Vibration Suppression.",
+                                full: "**Settings → Height Controller (§9.2):**\n**Κίνηση:** Z travel range/speed/acceleration, Max follow height, Z jog low/mid/high speed.\n**Συναγερμοί:** Follow Error (μέγιστο λάθος ύψους), Follow Error Delay, Local Capacitance Drop, Piece/Cut/Travel hit-plate alarm delay, Hit-Plate Monitor.\n**Προχωρημένα:** Realtime calibration (ξαναβαθμονομεί ανά διαστήματα — η ζέστη αλλάζει τη χωρητικότητα), Quick follow (πιο γρήγορη κοπή), Vibration Suppression, Sharp corner follow."
+                            },
+                            {
+                                keywords: ['plc settings', 'προγραμματισμος plc', 'about machine', 'στοιχεια μηχανης', 'στοιχεία μηχανής'],
+                                question: 'Τι είναι το PLC και το About Machine στα Settings;',
+                                short: "**PLC:** αυτόματες ενέργειες κατά την κοπή (π.χ. πόρτα ασφαλείας → STO). ⚠️ Μόνο με τεχνική υποστήριξη. **About Machine:** ημερομηνία έκδοσης, κάρτα ελέγχου, μοντέλα laser/κεφαλής/αισθητήρα, ισχύς άδειας.",
+                                full: "**PLC & About Machine (§9.3-9.4):**\n**PLC:** Ορίζετε ενέργειες που γίνονται αυτόματα κατά την κοπή. Παράδειγμα: αν στο Config Tool → Alarm ορίσετε Safety door alarm input, ανοίγοντας την πόρτα ασφαλείας χτυπά συναγερμός και (με σβηστά servo, προτείνεται STO) εκτελείται το αντίστοιχο πρόγραμμα PLC. ⚠️ Λάθος αλλαγές μπορεί να προκαλέσουν σοβαρή ζημιά/κίνδυνο — ρωτήστε την τεχνική υποστήριξη πριν αλλάξετε κάτι.\n**About Machine:** ημερομηνία έκδοσης, κάρτα ελέγχου, μοντέλο laser/κεφαλής/αισθητήρα ύψους, ισχύς άδειας κ.ά."
+                            }
+                        ]
+                    },
+                    // 10. Συντεταγμένες --------------------------------------------
+                    {
+                        id: 'coordinates', title: 'Συντεταγμένες',
+                        topics: [
+                            {
+                                keywords: ['μηδενικό', 'μηδεν', 'μηδέν', 'διακοπή', 'διακοπη', 'breakpoint', 'ρεύμα', 'ρευμα', 'stop', 'zero', 'origin', 'return zero', 'return origin', 'συντεταγμενες μηχανης', 'συντεταγμενες προγραμματος'],
+                                question: 'Πώς βρίσκω το μηδενικό σημείο μετά από διακοπή στο HypCut;',
+                                short: "Αν σταμάτησε από εξωτερικό πρόβλημα (η μηχανή ξέρει πού είναι) → **Return Zero**. Αν κόπηκε ρεύμα/servo alarm (χάθηκε η θέση) → πρώτα **Return Origin**, μετά Return Zero. Για συνέχεια κοπής: **Breakpoint**.",
+                                full: "**Συντεταγμένες & Εύρεση Μηδενικού (Κεφ. 10):**\n**Συντεταγμένες μηχανής:** ορίζονται από την κατασκευή — κάθε Return Origin δίνει ακριβώς τις ίδιες. Κεφαλή προς τα δεξιά = X+, προς τα πίσω = Y+.\n**Συντεταγμένες προγράμματος:** ίδιες κατευθύνσεις, άλλο μηδέν. Δύο είδη: **Κινητό (float)** — μηδέν = εκεί που είναι η κεφαλή όταν πατάτε Frame/Dry Run/Start (Debug, ευέλικτη παραγωγή)· **Τεμαχίου (workpiece)** — σταθερό μηδέν που ορίζετε (μαζική παραγωγή).\n**Μετά από απρόοπτο:**\n• Σταμάτησε από εξωτερικό πρόβλημα (π.χ. laser, αέριο) αλλά η μηχανή ξέρει πού είναι → **Return Zero** (πάει κατευθείαν στο μηδέν).\n• Κόπηκε ρεύμα, συναγερμός servo, ή κάτι που «έχασε» τη θέση → πρώτα **Return Origin**, μετά **Return Zero**.\n**Breakpoint (Production):** ανακαλεί αυτόματα το τελευταίο σημείο διακοπής (αν δεν αλλάξατε σχέδιο/τεχνική και δεν ξεκινήσατε νέα κοπή) ώστε να συνεχίσετε την κοπή από εκεί — δεν υπάρχει κάτι με το όνομα «Pt LOC/Pt CONT» στο HypCut, το σωστό κουμπί είναι απλά **Breakpoint**."
+                            }
+                        ]
+                    }
+                ]
             },
-            {
-                keywords: ['αλαρμ', 'αλάρμ', 'alarm', 'σφάλμα', 'προειδοποίηση', 'error', 'bcs100', 'limit', 'τερμα'],
-                short: "Όταν βγει **Alarm**, η κίνηση σταματάει αυτόματα. Δες την αιτία και κάνε reset (HypCut: Diagnosis→Alarm Log· CypCut: παράθυρο Alarm/BCS100).",
-                full: "**Αντιμετώπιση Alarm — δύο συστήματα, μικρές διαφορές:**\n• **HypCut (BOCHU):** Η κίνηση σταματάει αυτόματα, η μπάρα κατάστασης γίνεται κόκκινη/κίτρινη. Δες όλα τα ιστορικά/ενεργά alarm στο **Diagnosis → Alarm Log**, διόρθωσε την αιτία και κάνε Reset.\n• **CypCut (Friendess):** Ο τίτλος του παραθύρου γίνεται κόκκινος με το μήνυμα σφάλματος, και το κάτω παράθυρο **'Alarm'** καταγράφει όλα τα μηνύματα. Υπάρχει ειδικά το **BCS100 alarm** (σφάλμα κεφαλής/χωρητικότητας) που μπλοκάρει κίνηση X/Y μέχρι να γίνει reset — αν είναι ενεργοποιημένο το 'remove alarms manually' στο config tool, χρειάζεται χειροκίνητο reset πατώντας το κουμπί reset στο κάτω μέρος. Emergency stop μπλοκάρει τελείως την κίνηση."
-            },
-            {
-                keywords: ['μηδενικό', 'μηδεν', 'διακοπή', 'breakpoint', 'διακοπη', 'ρεύμα', 'ρευμα', 'stop', 'zero', 'origin'],
-                short: "**Return Zero** για απλή διακοπή, **Return Origin** αν χάθηκε η θέση, **Pt LOC + Pt CONT** για συνέχιση από το breakpoint.",
-                full: "**Επαναφορά & Εύρεση Μηδενικού Σημείου (HypCut):**\n• **Return Origin:** Επαναφέρει το μηχανικό μηδέν (machine coordinate) στους άξονες X/Y — απαιτείται μετά από εκκίνηση, διακοπή ρεύματος ή servo alarm. Μέχρι να γίνει, επιτρέπεται μόνο αργή χειροκίνητη κίνηση.\n• **Return Zero:** Επιστρέφει την κεφαλή στο καταγεγραμμένο program zero point (σημείο έναρξης του προγράμματος) — χρησιμοποιείται για απλή διακοπή χωρίς απώλεια θέσης.\n• **Breakpoint:** Στο Production, το κουμπί **Breakpoint** ανακαλεί αυτόματα το τελευταίο σημείο διακοπής (αν δεν άλλαξε σχέδιο/τεχνική) ώστε να συνεχίσεις την κοπή από εκεί."
-            },
-            {
-                keywords: ['pierce', 'διάτρηση', 'διατρηση', 'smooth pierce', 'flash pierce', 'segment pierce', 'incremental pierce', 'pre-pierce', 'group pre-pierce'],
-                short: "**HypCut:** Smooth/Incremental/Flash/Segment Pierce. **CypCut:** segmented/incremental pierce + pre-pierce/group pre-pierce.",
-                full: "**Τύποι Pierce — διαφορετική ορολογία ανά σύστημα:**\n• **HypCut (BOCHU), Production → Technique → Piercing:** Smooth Pierce (frog leap με σταδιακή μετάβαση ύψους/εστίασης), Incremental Pierce (παραμονή ανά στάδιο ύψους), Flash Pierce (για χοντρές πλάκες), Segment Pierce (διαφορετικές παράμετροι ανά ύψος/διάρκεια).\n• **CypCut (Friendess), Layer window:** Segmented pierce και Incremental pierce (ίδια λογική με πολλαπλά στάδια ύψους/ισχύος), **Pre-pierce** (διάτρηση σε όλα τα σημεία εκκίνησης πριν ξεκινήσει καθόλου η κοπή), **Group pre-pierce** (διάτρηση+κοπή ανά ομάδα πριν προχωρήσει στην επόμενη). Σημείωση: pre-pierce δεν συνδυάζεται με evaporate film."
-            },
-            {
-                keywords: ['cutting parameters', 'ταχύτητα κοπής', 'ταχυτητα κοπης', 'cut height', 'είδος αερίου', 'ειδος αεριου', 'γκαζι', 'αέριο', 'αεριο', 'πίεση', 'πιεση', 'power', 'ισχύς', 'ισχυς'],
-                short: "Τα **Cutting Parameters** ρυθμίζουν ταχύτητα κοπής, ύψος ακροφυσίου (Cut Height), είδος αερίου (O2/N2/Air) και πίεση.",
-                full: "**Cutting Parameters:**\nΚαθορίζουν την ταχύτητα κοπής, το ύψος του ακροφυσίου (Cut Height), το είδος αερίου (O2, N2, Air) και την πίεσή του. Οι σωστές τιμές εξαρτώνται από το πάχος και τον τύπο του υλικού (π.χ. O2 για μαλακό χάλυβα, N2 για ανοξείδωτο/αλουμίνιο)."
-            },
-            {
-                keywords: ['focus', 'εστίαση', 'εστιαση'],
-                short: "Το **Focus Pos** ρυθμίζει την εστίαση της δέσμης: θετικό για μεγάλα πάχη/O2, αρνητικό για ανοξείδωτο/N2.",
-                full: "**Focus Pos (Εστίαση Δέσμης):**\nΡυθμίζει το σημείο εστίασης της δέσμης λέιζερ σε σχέση με την επιφάνεια του υλικού. Θετικό focus χρησιμοποιείται συνήθως για μεγάλα πάχη με O2, ενώ αρνητικό focus για ανοξείδωτο ή αλουμίνιο με N2, ώστε να βελτιστοποιείται η ποιότητα κοπής."
-            },
-            {
-                keywords: ['fly cut', 'flying cut', 'γρήγορη κοπή', 'σκανάρισμα', 'flycut'],
-                short: "Το **Fly Cut** κόβει γρήγορα συστοιχίες όμοιων σχημάτων χωρίς να σηκώνεται η κεφαλή σε κάθε σχήμα.",
-                full: "**Λειτουργία Fly Cut (Flying Cut):**\n• Χρησιμοποιείται για ταχύτατη κοπή συστοιχιών όμοιων σχημάτων (π.χ. διάτρητα πλέγματα, κύκλοι, τετράγωνα).\n• Η κεφαλή διατηρεί σταθερό ύψος και ταχύτητα χωρίς να ανοιγοκλείνει το ύψος του ακροφυσίου σε κάθε περίγραμμα.\n• Απαιτείται προηγουμένως σωστή ταξινόμηση (*Sort*) της διαδρομής."
-            },
-            {
-                keywords: ['lead line', 'lead', 'εισόδου', 'εισοδου', 'γραμμή εισόδου', 'lead-in', 'lead in', 'εξόδου'],
-                short: "Τα **Lead Lines** προστατεύουν το κομμάτι από κάψιμο στη διάτρηση· ρυθμίζονται από το μενού **Lead**.",
-                full: "**Διαμόρφωση Lead Lines (Εισόδου/Εξόδου):**\n• Εμποδίζουν το κάψιμο/σημάδι του λέιζερ πάνω στο τελικό περίγραμμα κατά τη διάτρηση.\n• Ρυθμίζονται από το μενού **Lead** (Επιλογή τύπου: Ευθεία, Τόξο, Γωνία & Μήκος εισόδου).\n• Με το **Lead Pos** αλλάζετε το σημείο όπου ξεκινάει η κοπή.\n• Πατήστε **Check Lead Lines** για να βεβαιωθείτε ότι δεν τέμνονται με γειτονικά κομμάτια."
-            },
-            {
-                keywords: ['ευθυγράμμιση', 'ευθυγραμμιση', 'edge', 'find edge', 'γωνία', 'γωνια', 'λαμαρίνα', 'λαμαρινα', 'align', 'capacitive', 'circle centering', 'bcs100', 'infrared'],
-                short: "**HypCut:** Capacitive Find Edge (3/4/6 σημείων), Circle Centering, Photoelectric/Optical. **CypCut:** BCS100 Find Edge, Infrared (Omron), Manual.",
-                full: "**Find Edge — διαφορετικές μέθοδοι ανά σύστημα:**\n• **HypCut (BOCHU):** Capacitive Find Edge (3-point quick / 4-point precise / 6-point slat-avoid για λεπτά φύλλα), Single Side 2-Point (μόνο γωνία, όχι μηδενικό), Circle Centering (κυκλικές πλάκες), Photoelectric Find Edge, Optical Find Edge (κάμερα).\n• **CypCut (Friendess):** **BCS100 Find Edge** (χρειάζεται BCS100 controller· single-point ή three-point, κλίση πλάκας ≤10°), **Infrared Find Edge** (φωτοηλεκτρικός αισθητήρας Omron E3Z-L61, κλίση ≤40°, χρειάζεται μέτρηση απόκλισης αισθητήρα/κεφαλής την πρώτη φορά), και χειροκίνητη ευθυγράμμιση.\nΚαι στα δύο, το αποτέλεσμα (γωνία περιστροφής) εμφανίζεται πάνω δεξιά στο σχέδιο."
-            },
-            {
-                keywords: ['micro-joint', 'micro joint', 'μικροσύνδεση', 'συγκράτηση', 'joint', 'joint'],
-                short: "Τα **Micro-joints** αφήνουν μικρό άκοπο σημείο για να μην πέφτει το κομμάτι· προστίθενται με το κουμπί **Micro Joint**.",
-                full: "**Χρήση Micro-joints (Μικροσυνδέσεων):**\n• Αφήνουν ελάχιστο άκοπο σημείο (π.χ. 0.5mm - 1mm) ώστε τα κομμένα εξαρτήματα να μην πέφτουν ή να μην ανασηκώνονται προκαλώντας σύγκρουση με την κεφαλή.\n• Προστίθενται με το κουμπί **Micro Joint** (χειροκίνητα με κλικ πάνω στη διαδρομή ή αυτόματα βάσει απόστασης).\n• Αφαιρούνται με το **Clear MicroJoint**."
-            },
-            {
-                keywords: ['frame', 'dry cut', 'δοκιμή', 'περιδιάβαση', 'προεπισκόπηση', 'πλαίσιο'],
-                short: "**Frame** διαγράφει μόνο το πλαίσιο χωρίς κοπή· **Dry Cut** τρέχει όλη τη διαδρομή με κλειστό το λέιζερ.",
-                full: "**Έλεγχος Διαδρομής (Frame & Dry Cut):**\n• **Frame (Περιδιάβαση):** Η κεφαλή διαγράφει το εξωτερικό ορθογώνιο περίγραμμα του σχεδίου στο τραπέζι (χωρίς λέιζερ/αέριο) για επιβεβαίωση ότι το υλικό επαρκεί.\n• **Dry Cut (Ξηρή Δοκιμή):** Εκτελείται ολόκληρη η διαδρομή κοπής σε πραγματικό χρόνο αλλά με κλειστή τη δέσμη λέιζερ."
-            },
-            {
-                keywords: ['nesting', 'νεστινγκ', 'τοποθέτηση', 'οικονομία', 'βέλτιστη', 'cypnest', 'fill up', 'array', 'nest'],
-                short: "**CypCut:** έχει ενσωματωμένο πλήρες Nesting module. **HypCut:** το nesting γίνεται στο ξεχωριστό CypNest· μέσα έχει μόνο Fill Up/Array.",
-                full: "**Nesting — μεγάλη διαφορά μεταξύ των δύο συστημάτων:**\n• **CypCut (Friendess):** Έχει πλήρες ενσωματωμένο **Nest module** — parts library (έως 50 τύποι), plate library, αυτόματο nesting με ρυθμίσεις κενού/περιθωρίου/γωνίας περιστροφής, co-edge, διαχείριση υπολειμμάτων (remnant), έκδοση αναφοράς κόστους, μέχρι 20 πλάκες ταυτόχρονα.\n• **HypCut (BOCHU):** ΔΕΝ κάνει πλήρες nesting μόνο του — συνεργάζεται με το ξεχωριστό λογισμικό **CypNest**, από όπου εισάγονται τα αρχεία (nrp/nrp2) μέσω δικτύου ή USB στο **Plan** module. Μέσα στο HypCut υπάρχει μόνο απλό **Fill Up** (γέμισμα φύλλου με αντίγραφα ενός σχεδίου) και **Array** (ορθογώνια διάταξη)."
-            },
-            {
-                keywords: ['quick cutoff', 'γρήγορη κοπή πλάκας', 'κόψιμο πλακας', 'cutoff'],
-                short: "Το **Quick CutOff** κόβει γρήγορα την πλάκα στα δύο με τις παραμέτρους του τρέχοντος σχεδίου· ρυθμίζεται και από το WKB τηλεχειριστήριο.",
-                full: "**Quick CutOff:**\n• Χρησιμοποιεί προεπιλεγμένα τις παραμέτρους τεχνικής του τρέχοντος σχεδίου (large contour) για γρήγορη κοπή/διαχωρισμό της πλάκας.\n• Ξεχωρίζει **λεπτή** (≤4mm) από **χοντρή** (≥4mm) πλάκα — για λεπτές πλάκες τα πρώτα 10mm κόβονται με σταθερό ύψος λόγω τάσης για παραμόρφωση στις άκρες.\n• Ρυθμίσεις: κατεύθυνση κοπής, ταχύτητα (0-120%), και **Extension cut** για πλήρη διαχωρισμό όταν η κοπή δεν είναι κάθετη.\n• Μπορεί να ενεργοποιηθεί κι από το ασύρματο τηλεχειριστήριο **WKB**."
-            },
-            {
-                keywords: ['καθαρισμός', 'φακός', 'φακος', 'ακροφύσιο', 'ακροφυσιο', 'nozzle', 'lens', 'συντήρηση', 'συντηρηση', 'clean nozzle', 'replace nozzle'],
-                short: "Το HypCut έχει αυτόματο **Clean Nozzle** (βούρτσα) και **Auto Replace Nozzle**, με trigger βάσει αριθμού διατρήσεων/μήκους κοπής.",
-                full: "**Συντήρηση Ακροφυσίου στο HypCut:**\n• **Clean Nozzle** (Production → Auxiliary → Auto Nozzle): καθαρίζει το ακροφύσιο με βούρτσα + φύσημα αερίου, σε καθορισμένη θέση φιξαρίσματος.\n• **Auto Replace Nozzle**: αυτόματη αλλαγή ακροφυσίου από σταθμό αποθήκευσης (π.χ. BNR240), όταν ξεπεραστεί ένα όριο (πλήθος διατρήσεων, μήκος κοπής, ή διάρκεια).\n• Η γενική συντήρηση όλων των εξαρτημάτων (ρακ, μοτέρ, βαλβίδες αερίου) παρακολουθείται στο **Maintenance** module, με υπενθυμίσεις βάσει προκαθορισμένων ορίων."
+
+            cypcut: {
+                label: 'CypCut',
+                categories: [
+                    // 1. Γρήγορη Εκκίνηση -----------------------------------------
+                    {
+                        id: 'quickstart', title: 'Γρήγορη Εκκίνηση',
+                        topics: [
+                            {
+                                keywords: ['τι ειναι το cypcut', 'τι είναι το cypcut', 'demo mode', 'encryption dog', 'κλειδι ασφαλειας', 'εγκατασταση cypcut'],
+                                question: 'Τι είναι το CypCut και πότε μπαίνει σε demo mode;',
+                                short: "Το **CypCut** (Friendess) είναι λογισμικό ελέγχου κοπής laser: γραφικά, παράμετροι, nesting, planning διαδρομής, έλεγχος κατεργασίας. Χωρίς **encryption dog + κάρτα ελέγχου** μπαίνει σε **demo mode** (όλα εκτός πραγματικής κοπής).",
+                                full: "**Τι είναι το CypCut:**\nΛογισμικό ελέγχου κοπής laser της Friendess — επεξεργασία γραφικών, ρύθμιση παραμέτρων, προσαρμογή διαδικασίας κοπής, nesting κομματιών, planning/simulation διαδρομής και έλεγχος της κατεργασίας.\nΜόνο με **encryption dog + κάρτα ελέγχου (control card)** μπορεί να πραγματοποιήσει πραγματική κατεργασία. Χωρίς αυτά μπαίνει σε **demo mode** — όλες οι λειτουργίες εκτός από πραγματική κοπή δουλεύουν, άρα μπορείτε να το εγκαταστήσετε σε laptop για σχεδιασμό πριν την κατεργασία.\nΈκδοση βάσης εγχειριδίου: CypCut 6.3.731."
+                            },
+                            {
+                                keywords: ['οθονη cypcut', 'οθόνη cypcut', 'user interface', 'ribbon toolbar', 'technique toolbar', 'layer button', '17 στρωσεις'],
+                                question: 'Πώς είναι η οθόνη του CypCut;',
+                                short: "Κέντρο = drawing board (μαύρο)/τραπέζι (λευκό πλαίσιο). Πάνω: File menu + ribbon menus Home/Draw/Nest/CNC/View. Αριστερά: Drawing toolbar. Δεξιά: Technique toolbar (Layer + 17 χρωματιστά layers) + Control panel.",
+                                full: "**Οθόνη CypCut (§1.3.2):**\nΚέντρο σε μαύρο = drawing board, λευκό πλαίσιο = περιοχή εργασίας μηχανής.\nΠάνω: title bar, menu bar (File + 5 μενού: **Home, Draw, Nest, CNC, View**), toolbar σε στυλ Ribbon. Πάνω αριστερά: Quick Access Bar (create/open/save, undo/redo).\nΑριστερά: **Drawing toolbar** — τα πρώτα 5 κουμπιά αλλάζουν τρόπο σχεδίασης (selection, node editing, sequence editing, dragging, zooming).\nΔεξιά: **Technique toolbar** — κουμπί «Layer» (ανοίγει Cutting Technique window) + 17 κουμπιά χρωματιστών layers. Το πρώτο layer γίνεται αυτόματα «background layer» (δεν κατεργάζεται). Το τελευταίο και προτελευταίο layer κόβονται πρώτα/τελευταία (το προτελευταίο συνήθως ως marking layer).\nΚάτω: 3 παράθυρα κύλισης κειμένου (Draw / System / **Alarm** σε κόκκινο) + Status bar.\nΔεξιά πλευρά: **Control panel** — επιλογή συστήματος συντεταγμένων, χειροκίνητος έλεγχος, έλεγχος κατεργασίας, ρυθμίσεις διεργασίας, μέτρηση παραγωγής."
+                            },
+                            {
+                                keywords: ['ροη εργασιας cypcut', 'ροή εργασίας cypcut', 'operation process', 'import file', 'pre-processing', 'προεπεξεργασια', 'start machining cypcut'],
+                                question: 'Ποια είναι η ροή εργασίας στο CypCut;',
+                                short: "Import File → Pre-Processing (αυτόματος καθαρισμός) → Cutting Technique (lead lines, compensation, layer params) → Cutting Path Planning (sort/group) → Pre-Machining Check (Frame/Simulate) → Start Machining.",
+                                full: "**Ροή Εργασίας (§1.4):**\n1. **Import File:** εισαγωγή αρχείου ή σχεδίαση απευθείας στο CypCut.\n2. **Pre-Processing:** αυτόματα αφαιρεί μικρά γραφικά/διπλές γραμμές, ενώνει ανοιχτές γραμμές, εξομαλύνει και ταξινομεί. Ρυθμίσεις: File → User parameters.\n3. **Cutting Technique:** lead lines, compensation, micro-joint, cooling point μέσω του Home menu· λεπτομερείς παράμετροι στο κουμπί **Layer**.\n4. **Cutting Path Planning:** αυτόματη ταξινόμηση (sort) ή Manual sort· Group για κλείδωμα σειράς.\n5. **Pre-Machining Check:** Align, Progress bar preview, Interactive preview, **Simulate** (η μηχανή δεν κινείται).\n6. **Start Machining:** πρώτα ελέγχετε θέση σχεδίου/τραπεζιού (Preview — κόκκινος σταυρός = θέση κεφαλής), μετά **Frame** (περίγραμμα), μετά **Dry Run** αν θέλετε, μετά **Start**. Σε παύση: Forward/Backward. Breakpoint συνεχίζει από εκεί που σταμάτησε η τελευταία κοπή (αν δεν αλλάξατε σχέδιο)."
+                            },
+                            {
+                                keywords: ['file menu', 'αρχειο μενου', 'backup param', 'user parameters', 'bcs100 monitor', 'report export'],
+                                question: 'Τι υπάρχει στο File Menu του CypCut;',
+                                short: "Πρόσφατα αρχεία, Save as (Lxd/Dxf), Import (χωρίς σβήσιμο τρέχοντος), Report (κατεργασίας/nesting/κατάστασης μηχανής), User parameters, Backup param, BCS100 Monitor, Diagnosis, About.",
+                                full: "**File Menu (§1.3.4):**\n• Λίστα πρόσφατων αρχείων.\n• **Save as:** αποθηκεύει ως Lxd ή Dxf.\n• **Import:** προσθέτει αρχείο χωρίς να σβήσει το τρέχον σχέδιο (το Open το σβήνει).\n• CypCut V712.6+ ανοίγει αρχεία **nrp/nrp2** από CypNest.\n• **Report:** εξαγωγή αναφοράς κατεργασίας, nesting, ή κατάστασης λειτουργίας μηχανής.\n• **User parameters:** προσαρμογή σε συνήθειες χρήστη.\n• **Backup param:** αντίγραφο όλων των ρυθμίσεων σε συμπιεσμένο αρχείο.\n• **BCS100 Monitor:** παρακολούθηση controller BCS100.\n• **Diagnosis:** παρακολούθηση/εντοπισμός προβλημάτων.\n• **About:** έκδοση λογισμικού."
+                            }
+                        ]
+                    },
+                    // 2. Επεξεργασία Σχεδίου (Graphic Edit) -----------------------
+                    {
+                        id: 'graphicedit', title: 'Επεξεργασία Σχεδίου',
+                        topics: [
+                            {
+                                keywords: ['selection', 'επιλογη γραφικων', 'επιλογή γραφικών', 'frame selection', 'select similar', 'disable drag and copy'],
+                                question: 'Πώς επιλέγω γραφικά στο CypCut;',
+                                short: "**Click** επιλέγει ένα γραφικό. **Frame** (κουτί σύρσιμο): αριστερά→δεξιά (μπλε) = μόνο ό,τι είναι ολόκληρο μέσα· δεξιά→αριστερά (πράσινο) = ό,τι αγγίζει το κουτί. Shift = προσθήκη/αφαίρεση χωρίς reset.",
+                                full: "**Selection (§2.2):**\n**Click** επιλέγει ένα γραφικό. **Frame** (σύρσιμο κέρσορα): από αριστερά προς δεξιά δημιουργεί μπλε κουτί — επιλέγεται μόνο ό,τι είναι ολόκληρο μέσα. Από δεξιά προς αριστερά δημιουργεί πράσινο κουτί — επιλέγεται ό,τι αγγίζει το κουτί, έστω και μερικώς.\n**Shift+κλικ:** προσθήκη/αφαίρεση από επιλογή χωρίς να αλλάξει η υπόλοιπη.\n**'Select' menu:** Select all (Ctrl+A), Invert, Copy/Paste/Cut, Select unclosed graphics, **Select similar graphic** (ίδιο σχήμα/μέγεθος), Select inner/outer contour, Select the layer, Lock the background.\n**Disable Drag and Copy:** απενεργοποιεί το Ctrl+σύρσιμο για αντιγραφή (αποφυγή μετατόπισης nested κομματιών)."
+                            },
+                            {
+                                keywords: ['geometric transform', 'μετασχηματισμος cypcut', 'scale', 'rotate', 'mirror', 'dynamic transform', 'size modification'],
+                                question: 'Πώς αλλάζω μέγεθος/περιστρέφω γραφικά στο CypCut;',
+                                short: "**Scale** (7 έτοιμες επιλογές ή ακριβές μέγεθος), **Dynamic Transform** (scale/rotate/mirror με το ποντίκι live), **Translation** με κατεύθυνση/Ctrl για αντιγραφή.",
+                                full: "**Geometric Transform (§2.3):**\n**Size Modification:** 7 έτοιμες επιλογές scale (π.χ. '100mm', '2 Times'). Για ακριβές μέγεθος: κουμπί Scale → dialog. Λουκέτο = κλειδωμένη αναλογία. Scale center ορίζει ποιο σημείο μένει σταθερό. Σημείωση: lead lines/seam compensation δεν αλλάζουν μαζί με το μέγεθος.\n**Dynamic Transform:** 3 τρόποι (scaling/rotating/mirror) με live προεπισκόπηση στο ποντίκι.\n**Translation and Copy:** κουμπιά κατεύθυνσης με fine-tune απόσταση· Ctrl+κατεύθυνση αντιγράφει το γραφικό σε αυτή την απόσταση."
+                            },
+                            {
+                                keywords: ['coordinate input', 'εισαγωγη συντεταγμενων', 'automatic adsorption', 'αυτοματη προσκολληση'],
+                                question: 'Πώς εισάγω ακριβείς συντεταγμένες στο σχέδιο;',
+                                short: "Μορφή εισαγωγής: `<X>,<Y>` π.χ. `100,100`. Λειτουργεί σε ποντίκι+πληκτρολόγιο μαζί στη σχεδίαση. Το **Automatic Adsorption** «κολλάει» αυτόματα σε πλέγμα/σημεία/όρια γραφικών.",
+                                full: "**Εισαγωγή Συντεταγμένων & Automatic Adsorption (§2.4-2.5):**\nΓια ακριβή σχεδίαση, εισάγετε συντεταγμένες απευθείας: μορφή `<X coordinate>,<Y coordinate>` (π.χ. `100,100`). Οι εισαγόμενες τιμές εμφανίζονται σε μπλε χρώμα. Λειτουργεί σε συνδυασμό με κλικ ποντικιού.\n**Automatic Adsorption:** ενεργοποιείται αυτόματα στη σχεδίαση — «κολλάει» σε πλέγμα, βασικά σημεία γραφικών, όρια γραφικών. Απενεργοποίηση/ρύθμιση ακρίβειας: File menu → Drawing page."
+                            },
+                            {
+                                keywords: ['γραφικη σχεδιαση', 'γραφική σχεδίαση', 'text to curve', 'standard parts', 'σχεδιο κειμενου', 'measure', 'μετρηση αποστασης'],
+                                question: 'Πώς σχεδιάζω σχήματα/κείμενο και μετράω αποστάσεις;',
+                                short: "Βασικά σχήματα (σημείο, γραμμή, κύκλος, τόξο, ορθογώνιο, πολύγωνο) + Standard Parts library. **Text to curve** για κείμενο (μετατρέψτε το ΤΕΛΕΥΤΑΙΟ). **Measure** μετρά απόσταση 2 σημείων.",
+                                full: "**Σχεδίαση & Μέτρηση (§2.6-2.7):**\nΑριστερό toolbar: isolated point, straight line, poly line, circle, arc, rectangle, polygon, text, standard parts.\n**Πολύγωνο ▼:** rounded rectangle, polygon (3-100 πλευρές), star shape, obround (ορθογώνιο + ημικύκλια στα άκρα).\n**Text Input:** εισάγετε κείμενο, αλλάζετε τύπο/μέγεθος γραμματοσειράς· μετατρέψτε σε **curve μόνο ως τελευταίο βήμα** (μετά χάνετε τη δυνατότητα επεξεργασίας κειμένου).\n**Standard Parts:** έτοιμη βιβλιοθήκη συνηθισμένων κομματιών.\n**Measure:** κλικ σε 2 σημεία → απόσταση στο κάτω παράθυρο."
+                            },
+                            {
+                                keywords: ['βελτιστοποιηση γραφικων', 'βελτιστοποίηση γραφικών', 'smooth', 'split', 'remove trivial', 'remove duplication', 'combine near', 'chop', 'plate separate'],
+                                question: 'Τι εργαλεία βελτιστοποίησης γραφικών έχει το CypCut (Smooth, Chop, κ.λπ.);',
+                                short: "**Smooth** (εξομάλυνση), **Split** (σπάσιμο κλειστής καμπύλης), **Remove Trivial** (αφαιρεί μικροσκοπικά γραφικά), **Remove Duplication**, **Combine Near** (ένωση ανοιχτών γραμμών), **Chop** (κοπές αποφυγής σύγκρουσης σε τρύπες), **Plate Separate** (διαίρεση για μεγάλα σχέδια).",
+                                full: "**Graphic Optimization (§2.8):**\n• **Smooth:** επιλέγετε polyline, ορίζετε ακρίβεια εξομάλυνσης.\n• **Split:** σπάει κλειστή καμπύλη σε ξεχωριστά γραφικά στο σημείο κλικ (ESC για έξοδο).\n• **Remove Trivial:** αφαιρεί «αόρατα» μικροσκοπικά γραφικά ορίζοντας εύρος διαστάσεων.\n• **Remove Duplication:** αφαιρεί επικαλυπτόμενες γραμμές σε κλειστό περίγραμμα.\n• **Combine Near:** ενώνει ανοιχτά περιγράμματα (π.χ. από AutoCAD που φαίνονται κλειστά αλλά δεν είναι) — ορίζετε ακρίβεια ένωσης.\n• **Chop:** προσθέτει γραμμές κοπής μέσα σε τρύπες κομματιών για αποφυγή σύγκρουσης ανασηκωμένου κομματιού (εμφανίζονται λευκές).\n• **Plate Separate:** χωρίζει ένα σχέδιο σε κομμάτια που χωράνε στην περιοχή εργασίας της μηχανής — κάθε κόκκινο πλαίσιο σώζεται ξεχωριστά."
+                            },
+                            {
+                                keywords: ['node edit', 'επεξεργασια κομβων', 'επεξεργασία κόμβων'],
+                                question: 'Πώς κάνω node edit (επεξεργασία κόμβων) σε γραφικό;',
+                                short: "Επιλέξτε γραφικό → Node Edit → εμφανίζονται οι κόμβοι (μπλε/κίτρινοι, όλοι επεξεργάσιμοι) → σύρετε για ρύθμιση. Ξανά το κουμπί για απενεργοποίηση.",
+                                full: "**Node Edit (§2.9.1):**\nΓια λεπτομερή ρύθμιση γραφικών. Επιλέξτε γραφικό και κάντε κλικ στο Node Edit — εμφανίζονται οι κόμβοι του γραφικού (μπλε και κίτρινοι, και οι δύο επεξεργάσιμοι). Σύρετε έναν κόμβο για να ρυθμίσετε το σχήμα. Ξανά το κουμπί απενεργοποιεί τη λειτουργία."
+                            }
+                        ]
+                    },
+                    // 3. Τεχνικές & Εργαλεία Σχεδίου -------------------------------
+                    {
+                        id: 'techniquetools', title: 'Τεχνικές & Εργαλεία Σχεδίου',
+                        topics: [
+                            {
+                                keywords: ['lead line', 'lead', 'γραμμη εισοδου cypcut', 'γραμμή εισόδου cypcut', 'automatic lead line', 'check lead line', 'distinguish inner outer contour'],
+                                question: 'Πώς ρυθμίζω τις Lead Lines στο CypCut;',
+                                short: "Αυτόματη διάκριση εσωτερικού/εξωτερικού περιγράμματος, **Automatic Lead Line** (ευθεία/τόξο, γωνία/μήκος), **Manual-set Lead Line**, **Check Lead Line** (ελέγχει αν τέμνεται με το γραφικό).",
+                                full: "**Lead Line (§3.1):**\n• **Distinguish Inner/Outer Contour:** αυτόματο στην εισαγωγή DXF — το εξωτερικό περίγραμμα κόβεται από έξω, το lead line σε εσωτερικό ξεκινά από μέσα. Χειροκίνητα: κουμπί στο Home menu, ή group + group sort για να ορίσετε ποιο είναι εξωτερικό.\n• **Automatic Lead Line:** τύπος (ευθεία, τόξο, ευθεία+τόξο), γωνία, μήκος, ακτίνα· προαιρετικά μικρός κύκλος στην αρχή. Σε τόξο, η άκρη είναι εφαπτόμενη στο γραφικό.\n• **Manual-set Lead Line:** κλικ πάνω στο γραφικό αλλάζει μόνο τη θέση (μήκος/γωνία ίδια)· κλικ έξω μετά πάνω δημιουργεί νέο lead line.\n• **Check Lead Line:** ελέγχει όλα τα lead lines, κονταίνει όσα τέμνονται με το γραφικό ή έχουν λάθος μήκος.\n• **Overcut, Gap, Seal, Multi-cut:** 4 επιπλέον επιλογές στην τεχνική στήλη — δεν επηρεάζουν γραφικό που ήδη έχει gap/overcut."
+                            },
+                            {
+                                keywords: ['seam compensation', 'αντισταθμιση ραφης', 'αντιστάθμιση ραφής', 'compensation'],
+                                question: 'Τι είναι το Seam Compensation;',
+                                short: "Αντιστάθμιση πάχους κοπής (kerf) — προστίθεται γραμμή σε λευκό ως η πραγματική διαδρομή εργαλείου (tool path), ενώ το αρχικό σχέδιο μένει ως έχει. Ρυθμίζεται μετρώντας πραγματική δοκιμαστική κοπή.",
+                                full: "**Seam Compensation (§3.2):**\nΠροστίθεται στο γραφικό μέσω του κουμπιού compensation στο toolbar. Η αντιστάθμιση πρέπει να ρυθμίζεται μετρώντας το πραγματικό αποτέλεσμα κοπής. Εμφανίζεται σε λευκό στο drawing board — αυτή είναι η πραγματική διαδρομή εργαλείου, το αρχικό γραφικό (πράσινο) μένει μόνο για αναφορά.\nΜπορεί να είναι εσωτερική/εξωτερική, χειροκίνητη ή αυτόματη. Μπορείτε να προσθέσετε φιλέτο (fillet) στη γωνία της γραμμής αντιστάθμισης — συνήθως χρειάζεται εξομάλυνση στη γωνία για συνέπεια σχεδίου/αποτελέσματος.\nΒιβλιοθήκη ρυθμίσεων: Compensation → Configuration → Edit. Αφαίρεση: επιλέξτε γραφικό → 'clear compensation'."
+                            },
+                            {
+                                keywords: ['micro-joint', 'μικροσύνδεση cypcut', 'μικροσυνδεση cypcut', 'auto micro-joint', 'explode micro-joint', 'flycut micro-joint'],
+                                question: 'Πώς προσθέτω Micro-joint στο CypCut;',
+                                short: "Κλικ πάνω στο γραφικό προσθέτει μικρό άκοπο σημείο (breach). **Auto micro-joint**: by count ή by distance. **Explode micro-joint** για επεξεργασία κάθε τμήματος ξεχωριστά. Από v731: FlyCut strategy στο πέρασμα (δεν σηκώνεται/επιβραδύνει).",
+                                full: "**Micro-joint (§3.3):**\nΠροσθέτει μικρή απόσταση-σύνδεσμο στο γραφικό — το laser δεν πυροδοτεί εκεί, ώστε το κομμάτι να μη φεύγει από τον σκελετό της πλάκας ούτε να σηκωθεί και συγκρουστεί με την κεφαλή. Εμφανίζεται σαν άνοιγμα (breach) στο σχέδιο.\nΚλικ στο κουμπί micro-joint, μετά κλικ στο σημείο του γραφικού (πολλαπλά κλικ = πολλά micro-joints, ESC για έξοδο). Μπορεί να μπει και πάνω στη γραμμή αντιστάθμισης.\n**Auto micro-joint:** by count (π.χ. 10 = 10 micro-joints ανά γραφικό) ή by distance (π.χ. κάθε 100mm).\n**Explode micro-joint:** κάθε τμήμα γίνεται ξεχωριστό αντικείμενο για επεξεργασία (π.χ. προσθήκη lead line σε κάθε τμήμα).\nΑφαίρεση: 'Clear micro-joint' στο drop-down Clear.\nΑπό **CypCut V731+**: FlyCut strategy — η κεφαλή περνά το micro-joint χωρίς να σηκωθεί ή να επιβραδύνει, για μεγαλύτερη ταχύτητα."
+                            },
+                            {
+                                keywords: ['cooling point', 'σημειο ψυξης', 'σημείο ψύξης', 'auto cooling point'],
+                                question: 'Τι είναι το Cooling Point στο CypCut;',
+                                short: "Στο σημείο κλικ, σβήνει το laser, ανοίγει αέριο για προκαθορισμένο delay, μετά ξανανάβει και συνεχίζει — αποτρέπει κάψιμο γωνιών. Auto Cooling Point: σε μυτερές γωνίες ή/και στη γραμμή εισόδου.",
+                                full: "**Cooling Point (§3.4):**\nΚλικ στο κουμπί Cooling Point μετά κλικ στο γραφικό προσθέτει σημείο ψύξης (πολλαπλά με συνεχόμενα κλικ). Όταν η μηχανή φτάσει εκεί: σβήνει laser, ανοίγει αέριο για προκαθορισμένο delay, μετά ανάβει laser/κλείνει αέριο και συνεχίζει κανονικά. Εμφανίζεται ως συμπαγής λευκή τελεία.\n**Auto Cooling Point:** επιλέγετε αυτόματη προσθήκη σε sharp corner ή/και lead line. Αν το cooling point είναι πάνω σε lead line, ενσωματώνεται με αυτό (το 'Clear cooling point' δεν το σβήνει — μόνο η διαγραφή του ίδιου του lead line).\nΧρησιμοποιείται συχνά σε γωνίες κομματιού, ώστε να μη ζεσταθεί/καεί η γωνία."
+                            },
+                            {
+                                keywords: ['ring cut', 'επιπλεον διαδρομη γωνιας', 'fillet', 'release', 'στρογγυλοποιηση γωνιας', 'εγκοπη λυγισματος'],
+                                question: 'Τι είναι το Ring Cut και το Fillet/Release στο CypCut;',
+                                short: "**Ring Cut:** επιπλέον διαδρομή για καλύτερη ποιότητα σε μυτερές γωνίες. **Fillet:** μετατρέπει μυτερή γωνία σε στρογγυλή. **Release:** δημιουργεί εγκοπή λύγισης (bending notch).",
+                                full: "**Ring Cut & Fillet/Release (§3.5-3.6):**\n• **Ring Cut:** επιλέξτε γραφικό → δημιουργεί επιπλέον διαδρομή για να βελτιώσει την ποιότητα κοπής σε μυτερές γωνίες.\n• **Fillet:** μετατρέπει μυτερή γωνία σε στρογγυλή (rounded corner).\n• **Release:** δημιουργεί εγκοπή (notch) στη γωνία για να λυγίσει το μέταλλο πιο εύκολα χωρίς να σκίσει, στη διαδικασία κάμψης (bending)."
+                            },
+                            {
+                                keywords: ['group', 'ομαδοποιηση', 'ομαδοποίηση', 'degroup', 'explode graphics', 'multi contour cut together', 'part'],
+                                question: 'Πώς λειτουργεί το Group στο CypCut;',
+                                short: "Το **Group** ενοποιεί πολλά γραφικά σε ένα αντικείμενο με σταθερή σειρά/θέση. Ένα group με ένα εξωτερικό γραφικό που περιέχει τα άλλα = **'part'**. Multi contour cut together μειώνει τις διατρήσεις.",
+                                full: "**Group (§3.7):**\nΕνσωματώνει πολλά γραφικά σε ένα αντικείμενο· η σειρά και η θέση των γραφικών μέσα στο group παραμένουν σταθερές. **Degroup** διαλύει μόνο το group (όχι τα γραφικά)· **Explode graphics** διαλύει τα γραφικά σε τμήματα γραμμών.\nΑν σε ένα group υπάρχει ένα γραφικό που περιέχει όλα τα άλλα, ονομάζεται **'part'** (outline).\nΤο CypCut ενοποιεί αυτόματα σε group τα γραφικά με co-edge· το **Bridge** επίσης ενώνει δύο groups σε ένα.\n**Sorting of Group:** η σειρά μέσα σε ένα group δεν αλλάζει στην αυτόματη ταξινόμηση — αλλάζει μόνο με δεξί κλικ → group sort.\n**Machining of Group:** ένα group πρέπει να ολοκληρωθεί πλήρως πριν προχωρήσει η μηχανή στο επόμενο γραφικό· το εξωτερικό περίγραμμα ενός part/group κόβεται πάντα τελευταίο.\n**Multi contour cut together:** δημιουργεί διαδρομή που ενώνει το group, μειώνοντας τις διατρήσεις."
+                            },
+                            {
+                                keywords: ['flying cut', 'ιπταμενη κοπη cypcut', 'ιπτάμενη κοπή cypcut', 'max joint distance', 'max scan length', 'circles flying cut'],
+                                question: 'Πώς ρυθμίζω το Flying Cut στο CypCut;',
+                                short: "Για τυπικά σχήματα (ορθογώνια/κύκλοι/πολύγωνα) σε τακτική διάταξη. Κάντε πρώτα sorting. Ρυθμίσεις: Start position, Max joint distance, Max scan length. Για κύκλους: Circles flying cut + Max distance between two circles.",
+                                full: "**Flying Cut (§3.8):**\nΌταν τα γραφικά είναι τυπικά σχήματα (ορθογώνιο, κύκλος, πολύγωνο) σε τακτική διάταξη, βελτιώνει την απόδοση κοπής. Εκτελέστε πρώτα sorting για βέλτιστη διαδρομή.\n**Ρυθμίσεις:** Start position (από πού ξεκινά) · Max joint distance (αν η στροφή είναι μικρότερη, δημιουργεί ομαλή διαδρομή) · Max scan length (αν η απόσταση δύο γραφικών είναι μεγαλύτερη, δεν δημιουργείται fly cut path).\n**Circles flying cut** (μόνο κύκλοι): Max distance between two circles.\nΣτο Global parameter ορίζετε **fly cut over-cut distance** ώστε τα κομμάτια να πέφτουν σίγουρα από τον σκελετό."
+                            },
+                            {
+                                keywords: ['co-edge', 'κοινη πλευρα', 'κοινή πλευρά', 'automatic absorb', 'co-edge with compensation'],
+                                question: 'Πώς κάνω Co-edge (κοινή πλευρά) στο CypCut;',
+                                short: "Ενώνει την κοινή γραμμή δύο κομματιών σε μία, μειώνοντας το μήκος κοπής (απόσταση ≤0.1mm). **Automatic Absorb** «κολλάει» τα γραφικά κατά το σύρσιμο. Με αντιστάθμιση: πρώτα compensation, μετά co-edge.",
+                                full: "**Co-edge (§3.9):**\nΕνώνει την κοινή γραμμή δύο κομματιών σε μία — μειώνει το μήκος κοπής. Λειτουργεί όταν η απόσταση των κομματιών είναι μικρότερη από **0.1mm**. Το CypCut ΔΕΝ μπορεί να ενώσει εσωτερικές κοίλες γραμμές. Τα ενωμένα γραφικά γίνονται group.\n**Automatic Absorb:** όταν σέρνετε ένα γραφικό, «κολλάει» αυτόματα σε άλλο όταν είναι στη σωστή θέση για co-edge — μετά κλικ στο κουμπί co-edge για να δημιουργηθεί. 'Explode graphics' (στο group menu) διαλύει το co-edge.\n**Co-edge with Compensation:** αν θέλετε αντιστάθμιση, προσθέστε την ΠΡΩΤΑ και μετά κάντε co-edge — μόνο η γραμμή αντιστάθμισης παραμένει ως πραγματική διαδρομή."
+                            },
+                            {
+                                keywords: ['bridge', 'γεφυρα', 'γέφυρα', 'γεφυρα συγκρατησης'],
+                                question: 'Τι είναι το Bridge στο CypCut;',
+                                short: "Ενώνει κομμάτια που θέλετε να μείνουν συνδεδεμένα μετά την κοπή, μειώνοντας και τις διατρήσεις. Ρυθμίσεις: μέγιστη απόσταση μεταξύ κομματιών + πλάτος γέφυρας.",
+                                full: "**Bridge (§3.10):**\nΌταν ένα κομμάτι εργασίας περιέχει πολλά κομμάτια που θέλετε να μείνουν ενωμένα, προσθέτετε γέφυρα (bridge) — μειώνει και τις διατρήσεις. Κλικ στο κουμπί Bridge και σύρετε μια γραμμή στο σχέδιο· τα γραφικά που τέμνει η γραμμή γεφυρώνονται.\n2 παράμετροι: μέγιστη απόσταση μεταξύ γειτονικών γραφικών (για να επιτραπεί γέφυρα) και πλάτος γέφυρας.\nΤα γραφικά με bridge αναγνωρίζονται ως group. ⚠️ Η συνεχόμενη κοπή μπορεί να προκαλέσει θερμική επίδραση στην ποιότητα κοπής."
+                            },
+                            {
+                                keywords: ['array', 'πινακας αντιγραφων', 'πίνακας αντιγράφων', 'rectangular array', 'manual array', 'circular array', 'full fill', 'quantity modify'],
+                                question: 'Τι τύποι Array υπάρχουν στο CypCut;',
+                                short: "4 τύποι: **Rectangular** (γραμμές/στήλες), **Manual** (σύρσιμο με απόσταση), **Circular** (κυκλική διάταξη), **Full Fill** (γεμίζει όλη την πλάκα). Το **Quantity Modify** εφαρμόζει αλλαγή σε όλα τα όμοια γραφικά.",
+                                full: "**Array & Quantity Modify (§3.11-3.12):**\n• **Rectangular Array:** ορίζετε γραμμές/στήλες → αντιγράφει το γραφικό σε πλέγμα.\n• **Manual Array:** ορίζετε απόσταση γραμμής/στήλης, σύρετε τον κέρσορα για αντιγραφή.\n• **Circular Array:** αντιγράφει γύρω από κέντρο σε κυκλική διάταξη.\n• **Full Fill:** γεμίζει όλη την πλάκα (βάσει προκαθορισμένων διαστάσεων πλάκας) με αντίγραφα.\n**Quantity Modify:** επεξεργάζεστε ένα γραφικό (π.χ. προσθέτετε lead line) και η αλλαγή εφαρμόζεται αυτόματα σε όλα τα ίδια γραφικά στο σχέδιο."
+                            },
+                            {
+                                keywords: ['παραμετρους κοπης', 'παραμέτρους κοπής', 'ρυθμίσεις κοπής', 'ρυθμισεις κοπης', 'layer settings', 'cutting parameters', 'cut height', 'cut focus', '16 layers', 'στρωματα cypcut'],
+                                question: 'Πώς ρυθμίζω τις παραμέτρους κοπής (layers) στο CypCut;',
+                                short: "16 layers, το καθένα με δικές του παραμέτρους (ταχύτητα, ισχύς, αέριο, **Cut height**, **Cut Focus**). Δεν υπάρχουν «Pierce 1/2/3» — η διάτρηση είναι Pre-pierce/Group pre-piercing/segmented/incremental.",
+                                full: "**Cutting Technique — Layer Params (§3.13):**\nΥπάρχουν **16 layers**, οι δύο τελευταίες είναι 'process at first' και 'process at last'. Κουμπί **Layer** ανοίγει το παράθυρο παραμέτρων — πρώτη σελίδα 'Global parameter' (προεπιλογές), οι υπόλοιπες ανά layer.\n**Βασικές παράμετροι:** Cutting speed (στόχος — η πραγματική είναι συνήθως πιο αργή σε γωνίες) · Lift height.\n**Machining mode:** Standard / Fixed height cutting (σταθερό ύψος) / Extra plate follow (ξεκινά έξω από την πλάκα, ακολουθεί μόλις μπει μέσα — ρυθμίζεται μέσω CNC → BCS100 → Save extra-plate follow reference height).\n**Machining params:** **Cut height** (απόσταση ακροφυσίου-πλάκας — ΟΧΙ «Nozzle distance», αυτός είναι ο όρος HypCut) · Gas type · Gas pressure (χρειάζεται αναλογική βαλβίδα) · Peak power (π.χ. 80% × 3000W = 2400W) · Cut pwr (duty cycle) · Cut Freq · **Cut Focus** (θέση εστίασης σε σχέση με το ακροφύσιο — το manual ΔΕΝ δίνει κανόνα θετικού/αρνητικού για O2/N2) · Delay Time · Laser-off delay · Step time (χρόνος καθόδου από ύψος διάτρησης σε ύψος κοπής) · Extra puffing.\n**Άλλες:** Disable / Disable follow / Keep puffing / Short move / **Pre-pierce** (τρυπά σε όλα τα σημεία εκκίνησης πριν κόψει — με 'group pre-piercing' το κάνει ανά ομάδα· δεν συνδυάζεται με evaporate film) / Evaporate film / Path cool.\n⚠️ Δεν υπάρχει ονοματολογία «Pierce 1, 2, 3» στο CypCut."
+                            },
+                            {
+                                keywords: ['real-time power frequency regulate', 'καμπυλη ισχυος cypcut', 'καμπύλη ισχύος cypcut', 'dymc pwr adjust', 'dymc freq adjust'],
+                                question: 'Τι είναι το Real-time Power/Frequency Regulate;',
+                                short: "Ρυθμίζει σε πραγματικό χρόνο duty cycle/συχνότητα βάσει ταχύτητας (καμπύλη) — βελτιώνει ακρίβεια γωνιών. Η ισχύς δεν πέφτει ποτέ κάτω από το 10% της ονομαστικής.",
+                                full: "**Real-time Power/Frequency Regulate (§3.13.2):**\nΑν ενεργοποιηθεί, το duty cycle/συχνότητα ρυθμίζονται σε πραγματικό χρόνο ανάλογα με την ταχύτητα (μέσω καμπύλης — οριζόντιος άξονας ταχύτητα, κάθετος ισχύς/συχνότητα σε %). Πολύ χρήσιμο για ακρίβεια γωνιών. Το 'Dymc freq adjust' δεν επιλέγεται μόνο του — χρειάζεται πρώτα ενεργό το 'Dymc pwr adjust'.\nΠαράδειγμα υπολογισμού: laser 500W, peak power 90%, cut power 80%, σε ταχύτητα που αντιστοιχεί σε 79% της καμπύλης → 500×0.90×0.80×0.79 = 284.4W. Η ισχύς δεν πέφτει ποτέ κάτω από το 10% της ονομαστικής (π.χ. 500W → ελάχιστο 50W)."
+                            },
+                            {
+                                keywords: ['layer mapping', 'χαρτογραφηση στρωσεων', 'lead line technique', 'πλασμα', 'πλάσμα', 'νεφος πλασματος'],
+                                question: 'Τι είναι το Layer Mapping και η Lead Line Technique;',
+                                short: "**Layer Mapping:** αντιστοιχίζει layers DXF πολλαπλών επιπέδων. **Lead Line Technique:** για χοντρό ανοξείδωτο — σηκώνει την κεφαλή να φυσήξει το νέφος πλάσματος πριν κατέβει να κόψει.",
+                                full: "**Layer Mapping & Lead Line Technique (§3.13.3-3.13.4):**\n**Layer Mapping:** όταν εισάγετε DXF με πολλαπλά layers, το 'layer mapping' αντιστοιχίζει τα layers του αρχείου σε layers κοπής του CypCut.\n**Lead Line Technique:** σε χοντρό ανοξείδωτο δημιουργείται νέφος πλάσματος που απορροφά ενέργεια laser και μειώνει την ισχύ κοπής, ενώ το αέριο δύσκολα το φυσά στο ύψος κοπής. Λύση: μετά τη διάτρηση, η κεφαλή μένει σε πιο ψηλή θέση για να φυσήξει το πλάσμα, μετά κατεβαίνει και κόβει αργά για ένα «stable distance» πριν αρχίσει κανονική ταχύτητα."
+                            },
+                            {
+                                keywords: ['nesting', 'νεστινγκ', 'cypnest', 'nest', 'parts library', 'plate library', 'nest strategy', 'remnant', 'υπολειμμα'],
+                                question: 'Πώς λειτουργεί το Nesting στο CypCut;',
+                                short: "Ενσωματωμένο Nest module: parts library (έως 50 τύπους), plate library, έως **20 πλάκες** ταυτόχρονα. ⚠️ Το **'Nest strategy' υποστηρίζει ΜΟΝΟ array** — όχι πλήρες ακανόνιστο (irregular) nesting.",
+                                full: "**Nest (§3.14):**\nΤοποθετεί κομμάτια σε πλάκα με τη μεγαλύτερη δυνατή αξιοποίηση υλικού. Ρυθμίσεις: **Part gap** (ελάχιστο κενό μεταξύ κομματιών), **Plate margin** (περιθώριο πλάκας).\n⚠️ Το εγχειρίδιο αναφέρει ρητά: **«'Nest strategy' only supports array in CypCut»** — δηλαδή η αυτόματη διάταξη υποστηρίζει μόνο στρατηγική τύπου array (πλέγμα), όχι πλήρη αλγόριθμο βελτιστοποίησης ακανόνιστου nesting.\n**Parts library:** έως **50 τύπους** κομματιών. **Plate library:** πλάκες/ποσότητες. **Nest plate:** λίστα πλακών, **έως 20 πλάκες ταυτόχρονα**.\n**Detail settings:** γωνία περιστροφής, κατεύθυνση διάταξης, co-edge, διαχείριση υπολείμματος (remnant).\n**Nesting Report:** δεξί κλικ σε πλάκα → generate report, με στοιχεία κόστους από τις παραμέτρους layer.\n**File Switch:** ανοίγει nrp/nrp2 από CypNest, μετράει πόσες φορές έγινε η κοπή έναντι του στόχου και αλλάζει αρχείο αυτόματα (CypCut V712.6+)."
+                            },
+                            {
+                                keywords: ['sorting', 'ταξινομηση', 'ταξινόμηση', 'path planning', 'sequence preview', 'manual sorting', 'group sorting', 'grid sort'],
+                                question: 'Πώς κάνω ταξινόμηση διαδρομής (Sorting) στο CypCut;',
+                                short: "**Grid sort** για απλή προεπιλογή. **Sequence Preview** δείχνει τη σειρά κοπής live. **Manual Sorting**: First/Last/Prior/Next ή 'manual sort mode' με κλικ-κλικ. **Group Sorting** κλειδώνει σειρά μέσα σε group.",
+                                full: "**Sorting and Path Planning (§3.15):**\nΑν δεν έχετε ιδιαίτερη απαίτηση, επιλέξτε **grid sort**.\n**Sequence Preview:** σέρνετε το progress bar ή interactive preview για να δείτε τη σειρά κοπής βήμα-βήμα.\n**Manual Sorting:** επιλέγετε γραφικά → κουμπιά First / Last / Prior / Next. Ή μπαίνετε σε 'manual sort mode' και κάνετε κλικ στα γραφικά με τη σειρά που θέλετε (κλικ ξανά ή δεξί κλικ για ακύρωση· σύρσιμο κόκκινης γραμμής μεταξύ δύο γραφικών αλλάζει τη σειρά τους).\n**Group Sorting:** ομαδοποιείτε τα γραφικά που θέλετε σταθερή σειρά· η σειρά μέσα στο group δεν αλλάζει σε άλλη ταξινόμηση, εκτός αν κάνετε ρητά 'group sort'."
+                            }
+                        ]
+                    },
+                    // 4. Έλεγχος Κατεργασίας (Machining Control) ------------------
+                    {
+                        id: 'machiningcontrol', title: 'Έλεγχος Κατεργασίας',
+                        topics: [
+                            {
+                                keywords: ['coordinate system', 'συστημα συντεταγμενων', 'σύστημα συντεταγμένων', 'mechanical coordinate', 'program coordinate', 'floating coordinate', 'workpiece coordinate', 'μηδενικο σημειο μετα απο διακοπη'],
+                                question: 'Πώς λειτουργούν οι συντεταγμένες και η εύρεση μηδενικού μετά από διακοπή στο CypCut;',
+                                short: "**Μηχανικές:** σταθερές, ίδιες σε κάθε Return Origin. **Προγράμματος:** Floating (κινητό, δείγματα) ή Workpiece (σταθερό, μαζική παραγωγή). 3 σενάρια επαναφοράς: Return Zero / Return Origin+Zero / Remember Zero.",
+                                full: "**Coordinate System (§4.1):**\n**Μηχανικές συντεταγμένες:** ορίζονται από τον μηχανισμό, ίδιες σε κάθε Return Origin. Κεφαλή προς τα δεξιά = X+, προς τα πίσω = Y+ (κάτω αριστερά = ελάχιστες συντεταγμένες).\n**Συντεταγμένες προγράμματος:** ίδιες κατευθύνσεις, διαφορετικό μηδέν (\"program 0 point\"). Δύο τύποι: **Floating** (κινητή — η κεφαλή ξεκινά από την τρέχουσα θέση, για δείγματα/μικρές ποσότητες) και **Workpiece** (σταθερή — μηδέν ορισμένο από εσάς, για μεγάλες ποσότητες, ίδια θέση εκκίνησης κάθε φορά). Επιλογή από το κουμπί πάνω από το control panel.\n**Εύρεση μηδενικού μετά από διακοπή (§4.1.3):**\n1. Σταμάτησε από ατύχημα χωρίς επηρεασμό συντεταγμένων → **Return Zero**.\n2. Διακοπή ρεύματος/servo alarm (μετατόπισε συντεταγμένες) → **Return Origin**, μετά Return Zero.\n3. Διακοπή/λάθος χειρισμός, θέλετε το μηδέν της ΤΕΛΕΥΤΑΙΑΣ κοπής → 'remember zero' → 'go record' (CypCut V731+)."
+                            },
+                            {
+                                keywords: ['αλαρμ', 'alarm', 'σφάλμα', 'σφαλμα', 'error', 'bcs100 alarm'],
+                                question: 'Πώς αντιμετωπίζω ένα Alarm στο CypCut;',
+                                short: "Ο τίτλος παραθύρου γίνεται κόκκινος, η κίνηση σταματά μέχρι να αφαιρεθεί η αιτία. Το παράθυρο **'Alarm'** (κάτω) καταγράφει τα μηνύματα. **BCS100 alarm** μπλοκάρει X/Y — χρειάζεται χειροκίνητο reset αν είναι ενεργό το 'remove alarms manually'.",
+                                full: "**Alarm (§4.2):**\nΤο CypCut παρακολουθεί όλα τα εξαρτήματα. Σε συναγερμό: κόκκινος τίτλος παραθύρου, η κίνηση σταματά μέχρι να αφαιρεθεί η αιτία. Το παράθυρο **'Alarm'** (κάτω οθόνη) καταγράφει όλα τα μηνύματα συναγερμού· διπλό κλικ στο παράθυρο 'System' δείχνει πλήρες ιστορικό.\nΆλλα μηνύματα (warning/notice/important) εμφανίζονται σε άλλα χρώματα — δεν σταματούν την κοπή αλλά χρειάζονται προσοχή.\n**Χειροκίνητο vs αυτόματο reset:** στο 'Layer → Global parameter', κάτω δεξιά, υπάρχει 'all alarm need reset manually'.\n**Περιορισμοί ενεργού συναγερμού:** disable servo σε emergency stop· **disable X/Y σε BCS100 alarm** (ο Z παραμένει άγνωστη κατάσταση, κίνδυνος σύγκρουσης)· disable XYZ σε πλήρη emergency stop· Z limit alarm απενεργοποιεί dry run/jog.\n**Ρύθμιση BCS100 (CypCut V731+):** Configuration tool → Alarm → 'BCS100 alarm must be acknowledged' + 'remove alarms manually'. Όταν ενεργοποιηθεί BCS100 alarm, το κουμπί reset στο κάτω μέρος της οθόνης επιτρέπει ξανά κίνηση."
+                            },
+                            {
+                                keywords: ['manual test', 'χειροκινητος ελεγχος', 'χειροκίνητος έλεγχος', 'burst laser', 'mark position', 'guide laser', 'pilot laser'],
+                                question: 'Τι κάνει το Manual Test στο CypCut;',
+                                short: "Χειροκίνητος έλεγχος laser (κρατημένο κουμπί = πυροδότηση), αέριο on/off, guide/pilot laser. **Mark/Locate**: καταγράφει έως 6 σημεία μνήμης για γρήγορη μετάβαση.",
+                                full: "**Manual Test (§4.3):**\nΚουμπιά στο control panel: το κουμπί laser ενεργοποιείται όσο το κρατάτε πατημένο (πυροδοτεί), αφήνοντάς το σβήνει· τα άλλα κουμπιά (π.χ. αέριο) ενεργοποιούνται/απενεργοποιούνται με κλικ-κλικ. Κουμπί guide/pilot laser για δείκτη.\n⚠️ Κάθε κουμπί λειτουργεί μόνο αν το αντίστοιχο υλικό/ρύθμιση config tool είναι σωστό.\n**Mark & Locate:** σημειώνει την τρέχουσα θέση· μπορείτε να αποθηκεύσετε έως **6 σημεία** και να μεταβείτε γρήγορα σε καθένα."
+                            },
+                            {
+                                keywords: ['soft limit protection', 'προστασια ορων', 'προστασία ορίων', 'frame cypcut', 'start and dry run', 'stop pause continue', 'παυση συνεχεια'],
+                                question: 'Τι είναι το Soft Limit Protection, Frame και Dry Run στο CypCut;',
+                                short: "**Soft Limit:** σταματά κίνηση πριν βγει εκτός ορίων μηχανής (χρειάζεται σωστές συντεταγμένες, μετά από Return Origin). **Frame:** περίγραμμα ελέγχου θέσης. **Dry Run:** ίδια διαδρομή/ταχύτητα χωρίς laser/αέριο/ακολούθηση.",
+                                full: "**Soft Limit, Frame, Start/Dry Run (§4.4-4.6):**\n**Soft Limit Protection:** αν η κίνηση θα ξεπερνούσε το όριο, εμφανίζει προειδοποίηση και σταματά την αποστολή εντολών κίνησης — αποτρέπει σύγκρουση. ⚠️ Βασίζεται σε σωστές συντεταγμένες — μετά από αλλαγή config ή μη φυσιολογικό σβήσιμο, κάντε πάντα Return Origin πρώτα.\n**Frame:** η κεφαλή κινείται στο εξωτερικό περίγραμμα (ορθογώνιο) του κομματιού για επιβεβαίωση θέσης/διαστάσεων στην πλάκα. Ταχύτητα από Layer → Global parameter → Frame speed. ⚠️ Αν η πλάκα δεν είναι ίσια και έγινε εύρεση άκρης, ούτε το Frame θα είναι ίσιο.\n**Dry Run:** ίδια διαδρομή/ταχύτητα/επιτάχυνση με την πραγματική κοπή, αλλά laser/αέριο/ακολούθηση κλειστά (default) — pause/resume/forward/backward/breakpoint λειτουργούν όπως στην κανονική κοπή. Για ακολούθηση ενεργή σε dry run: Layer → Global parameter → Enable follow in dry run (CypCut V731+).\n**Επιστροφή μετά την κοπή:** προεπιλογή = zero point· μπορείτε να ορίσετε start point/end point/origin/mark point, ή να μείνει ακίνητη όπου τελείωσε."
+                            },
+                            {
+                                keywords: ['breakpoint', 'σημειο διακοπης', 'σημείο διακοπής', 'start at specified position', 'εναρξη απο συγκεκριμενο σημειο'],
+                                question: 'Πώς συνεχίζω από το Breakpoint ή ξεκινάω από συγκεκριμένο σημείο;',
+                                short: "**Breakpoint:** αν δεν αλλάξατε γραφικά/παραμέτρους μετά από διακοπή, εντοπίζει και συνεχίζει από εκεί. Αν αλλάξατε παραμέτρους, το κουμπί απενεργοποιείται. **Start at Specified Position:** δεξί κλικ σε σημείο του γραφικού για να ξεκινήσετε από εκεί.",
+                                full: "**Breakpoint & Start at Specified Position (§4.8-4.9):**\n**Breakpoint:** αν η κοπή διακόπηκε (π.χ. διακοπή ρεύματος) και δεν αλλάξατε γραφικά/παραμέτρους/σειρά, εντοπίζει το σημείο διακοπής και συνεχίζει από εκεί. Αν αλλάξατε παραμέτρους κοπής, το κουμπί breakpoint γίνεται ανενεργό.\n**Start at Specified Position:** δεξί κλικ πάνω στο γραφικό στο σημείο που θέλετε να ξεκινήσει η κοπή. Για ασφάλεια, ζητά επιβεβαίωση πριν ξεκινήσει — η κεφαλή πηγαίνει πρώτα εκεί και μετά αρχίζει την κοπή (ή μπαίνει σε παύση εκεί, ανάλογα την επιλογή)."
+                            },
+                            {
+                                keywords: ['global parameter', 'γενικες παραμετροι', 'γενικές παράμετροι', 'move speed', 'cut acceleration', 'follow parameter', 'frog style lift'],
+                                question: 'Τι ρυθμίσεις υπάρχουν στο Global Parameter του CypCut;',
+                                short: "Move speed/acceleration (μετακίνηση), Cut acceleration (κοπή), gas delays, Max follow height, Frog style lift, Enable follow in dry run, NURBS spline, Fly cut over distance, Compensate precision.",
+                                full: "**Global Parameter (§4.10):**\n**Motion Control:** Move speed (ταχύτητα dry run, διαφορετική από ταχύτητα κοπής), Move acceleration, Move Freq (jerk), Frame speed, Cut acceleration, Work Freq.\n**Default:** PWM Freq, Def Cur (peak power σε χειροκίνητο burst), Def Pressure, Gas delay, Initial gas delay, Switch gas delay, Cooling pt delay, Back after stop (πόσο πάει πίσω η κεφαλή στο resume).\n**Following:** Max follow height, Frog style lift, Enable follow in dry run, Disable follow, Only positioning (μη μεταλλικά υλικά), Unlift when move distance less than.\n**Advanced:** Enable NURBS spline interpolation (πιο ομαλή κοπή), All alarms need reset manually, Enable machine protection, Compensate precision, Fly cut over distance."
+                            }
+                        ]
+                    },
+                    // 5. Βοηθητικές Λειτουργίες CNC --------------------------------
+                    {
+                        id: 'cncassistant', title: 'Βοηθητικές Λειτουργίες CNC',
+                        topics: [
+                            {
+                                keywords: ['simulation', 'προσομοιωση cypcut', 'προσομοίωση cypcut'],
+                                question: 'Τι κάνει το Simulation στο CypCut;',
+                                short: "Δείχνει την πλήρη διαδρομή κοπής και τη σειρά κομματιών, χωρίς να στέλνει καμία εντολή στη μηχανή. Ρυθμίζετε ταχύτητα προσομοίωσης.",
+                                full: "**Simulation (§5.1):**\nΠροσομοιώνει τη διαδικασία κοπής ώστε να ελέγξετε τη σειρά — εκτελείται μόνο στο λογισμικό, καμία εντολή δεν στέλνεται στη μηχανή. Κλικ στο κουμπί Simulate στο control panel μεταβαίνει αυτόματα στο μενού CNC· ρυθμίζετε ταχύτητα προσομοίωσης στο toolbar."
+                            },
+                            {
+                                keywords: ['ευθυγράμμιση', 'ευθυγραμμιση', 'edge', 'find edge', 'align', 'bcs100', 'infrared', 'photoelectric sensor', 'omron'],
+                                question: 'Πώς κάνω εύρεση άκρης λαμαρίνας (Find Edge) στο CypCut;',
+                                short: "3 τρόποι: **BCS100 Find Edge** (single/three-point, κλίση ≤10°), **Infrared** (αισθητήρας Omron E3Z-L61, κλίση ≤40°), και χειροκίνητη ευθυγράμμιση. Αποτέλεσμα πάνω δεξιά στο σχέδιο.",
+                                full: "**Find Edge (§5.2):**\nΤο CypCut υποστηρίζει 3 τρόπους: BCS100, φωτοηλεκτρικός αισθητήρας (infrared), ή χειροκίνητη ευθυγράμμιση. Το αποτέλεσμα εμφανίζεται πάνω δεξιά στο drawing board.\n**BCS100 Find Edge** (§5.2.1, χρειάζεται BCS100 controller): Plate size X/Y (καλύτερα λίγο μικρότερο από το πραγματικό, για ασφάλεια). **Margin** μετατοπίζει το μηδέν μέσα/έξω από την πλάκα. **6-point find edge** συνιστάται για λεπτές πλάκες (λιγότερη παρεμβολή από δόντια τραπεζιού). 'From starting point' (σταθερή θέση) ή 'from current position'. ⚠️ Η κλίση της πλάκας δεν πρέπει να ξεπερνά τις **10°**. Find edge speed ~100mm/s, Follow height ~4mm.\n**Infrared Find Edge** (§5.2.2): αισθητήρας **Omron E3Z-L61**. Πρώτη φορά, μετρήστε την οριζόντια απόσταση αισθητήρα-δέσμης laser. Coarse locate speed ~100mm/s, Precise locate speed ~10mm/s (όχι πάνω από 30mm/s). ⚠️ Η κλίση δεν πρέπει να ξεπερνά τις **40°**.\n**Cut Off** (§5.2.3): επιλογές κοπής/διαχωρισμού πλάκας μέσω του ίδιου μενού Seek edge — 'X cut off' μπαίνει από αριστερά και δεξιά με ασφαλή απόσταση εκτός πλάκας πριν ακολουθήσει."
+                            },
+                            {
+                                keywords: ['plc process', 'plc διαδικασια', 'διαδικασία plc'],
+                                question: 'Τι είναι το PLC Process στο CypCut;',
+                                short: "Επεξεργασία/εκτέλεση προγραμμάτων PLC μέσα από το μενού CNC. ⚠️ Λάθος ρυθμίσεις μπορούν να προκαλέσουν σοβαρές συνέπειες — επικοινωνήστε με τεχνικό υποστήριξης πριν αλλάξετε κάτι.",
+                                full: "**PLC Process (§5.3):**\nΑπό το μενού CNC μπορείτε να επεξεργαστείτε και να εκτελέσετε προγράμματα PLC.\n⚠️ Ακατάλληλες ρυθμίσεις PLC μπορούν να οδηγήσουν σε σοβαρές συνέπειες — επικοινωνήστε με τους τεχνικούς της εταιρείας αν έχετε αμφιβολία."
+                            },
+                            {
+                                keywords: ['return origin point', 'επιστροφη στην αρχη', 'gantry synchronization', 'συγχρονισμος γεφυρας'],
+                                question: 'Τι είναι το Return Origin και το Gantry Synchronization;',
+                                short: "**Return Origin:** επαναφέρει τους άξονες στο μηχανικό μηδέν, ξαναχτίζει τις συντεταγμένες. **Gantry Synchronization:** διορθώνει σφάλμα θέσης όταν οι δύο άξονες Y δεν είναι παράλληλοι/έχουν διαφορετικό φορτίο-τριβή.",
+                                full: "**Return Origin & Gantry Synchronization (§5.4):**\n**Return to Mechanical Origin:** επαναφέρει τους άξονες στο μηχανικό μηδέν και ξαναχτίζει το σύστημα συντεταγμένων. Μπορείτε να επαναφέρετε κάθε άξονα ξεχωριστά.\n**Gantry Synchronization:** σε μηχανές τύπου gantry, αν οι δύο άξονες Y δεν είναι τέλεια παράλληλοι ή έχουν διαφορετική τριβή/φορτίο, δημιουργείται σφάλμα θέσης που επηρεάζει την ακρίβεια κοπής. Το σύστημα καταγράφει τη θέση σήματος Z των Y1/Y2 στο μηχανικό μηδέν και αντισταθμίζει το σφάλμα. Go origin ▼ → Gantry Synchronization· μετά την ολοκλήρωση, το μήνυμα αντιστάθμισης εμφανίζεται στο παράθυρο System.\n⚠️ Μετά από κάθε τροποποίηση της μηχανικής κατασκευής πρέπει να ξαναγίνει συγχρονισμός γέφυρας."
+                            },
+                            {
+                                keywords: ['diagnosis window', 'παραθυρο διαγνωσης', 'παράθυρο διάγνωσης', 'encoder analysis', 'bcs100 λειτουργιες', 'qcw', 'measure deviation', 'clean nozzle cypcut'],
+                                question: 'Τι κάνουν το Diagnosis Window, BCS100, QCW, Measure Deviation και Clean Nozzle στο CypCut;',
+                                short: "**Diagnosis Window:** σήματα/encoder feedback 4 αξόνων, 15 είσοδοι/20 έξοδοι. **BCS100:** return/follow/calibration. **QCW:** παλμικό laser (vs CW συνεχές). **Measure Deviation:** πραγματική vs αναφορά διαδρομή. **Clean Nozzle:** βούρτσα σε ευθεία/κύκλο/κύμα.",
+                                full: "**Διάφορες Λειτουργίες CNC (§5.6-5.10):**\n• **Diagnosis Window:** παρακολουθεί σήματα κάθε άξονα και ανάδραση encoder· μπορείτε να στείλετε παλμούς σε οποιονδήποτε από τους 4 άξονες και να ελέγξετε αν το pulse equivalent είναι σωστό. Limit ενεργό = χτύπησε τερματικό. PWM = κατάσταση laser. Παρακολουθεί 15 εισόδους/20 εξόδους.\n• **BCS100:** (χρειάζεται controller BCS100) — return axis to origin, follow to plate, locate axis σε συγκεκριμένη θέση, calibration, όλα μέσα από το CypCut.\n• **QCW:** τρόπος λειτουργίας laser — **CW** (συνεχές κύμα) vs **QCW** (παλμικό).\n• **Measure Deviation:** η κεφαλή διατρέχει το γραφικό, το πρόγραμμα δείχνει μπλε διακεκομμένη γραμμή (από ανάδραση μοτέρ) — συγκρίνετε με το σχέδιο αναφοράς για να μειώσετε απόκλιση.\n• **Clean Nozzle** (ανοίγει από config tool): jog η κεφαλή πάνω στη βούρτσα, ορίζετε θέση Z (ακροφύσιο πάνω στη βούρτσα), επιλέγετε αν φυσά αέριο, και κίνηση σε ευθεία/κύκλο/κύμα."
+                            }
+                        ]
+                    },
+                    // 6. Παράρτημα (Appendix) --------------------------------------
+                    {
+                        id: 'appendix', title: 'Παράρτημα',
+                        topics: [
+                            {
+                                keywords: ['co-edge example', 'παραδειγμα co-edge', 'παράδειγμα co-edge'],
+                                question: 'Υπάρχει παράδειγμα Co-edge στο manual;',
+                                short: "Ναι — πραγματικό παράδειγμα πελάτη: διαχωρισμός σε 3 ομάδες κομματιών (μεγάλα, λωρίδες κάτω, λωρίδες δεξιά), array σε κάθε ομάδα, μετά co-edge ανά ομάδα.",
+                                full: "**Co-edge Example (Παράρτημα §6.1):**\nΠραγματικό παράδειγμα πελάτη με σχέδιο DXF που είχε ανοιχτές γραμμές (κόκκινο). Βήματα: (1) διαχωρισμός σε 3 ομάδες κομματιών — 6 μεγάλα κομμάτια, 10 μακριές λωρίδες κάτω, 9×2=18 κοντές λωρίδες δεξιά· (2) ομαδοποίηση κάθε τύπου ξεχωριστά· (3) array στο πρώτο κομμάτι (3×2), co-edge στα 6 προκύπτοντα· (4) το δεύτερο κομμάτι κολλά αυτόματα δίπλα στο πρώτο (Automatic Absorb), array 2×9, co-edge στα 18. Δείχνει πρακτικά πώς συνδυάζονται Group + Array + Co-edge."
+                            },
+                            {
+                                keywords: ['gantry synchronization appendix', 'platform configuration', 'ρυθμιση πλατφορμας', 'gantry initialization'],
+                                question: 'Πώς γίνεται αναλυτικά το Gantry Synchronization;',
+                                short: "Ρύθμιση πλατφόρμας (Platform Configuration) πρώτα, μετά Gantry Initialization and Synchronization με τα βήματα του §6.2. Χρειάζεται επανάληψη μετά από κάθε μηχανική τροποποίηση.",
+                                full: "**Gantry Synchronization — αναλυτικά (Παράρτημα §6.2):**\nΠεριλαμβάνει Platform Configuration (ρύθμιση παραμέτρων πλατφόρμας πριν τη διαδικασία) και Gantry Initialization and Synchronization (η ίδια η διαδικασία συγχρονισμού των δύο αξόνων Y). Δείτε και την περίληψη στο §5.4.2 (κατηγορία «Βοηθητικές Λειτουργίες CNC»). Χρειάζεται επανάληψη μετά από κάθε τροποποίηση της μηχανικής κατασκευής."
+                            },
+                            {
+                                keywords: ['bcs100 find edge instructions', 'single point find edge', 'three-point find edge', 'wiring configuration', 'καλωδιωση', 'καλωδίωση'],
+                                question: 'Υπάρχουν αναλυτικές οδηγίες εγκατάστασης για BCS100/Infrared Find Edge;',
+                                short: "Ναι, στο Παράρτημα: ρύθμιση πλατφόρμας, single/three-point find edge βήμα-βήμα, και για infrared: photoelectric switch, καλωδίωση/configuration, precautions. Είναι υλικό εγκατάστασης/τεχνικού.",
+                                full: "**BCS100 & Infrared Find Edge — Οδηγίες Εγκατάστασης (Παράρτημα §6.3-6.4):**\n**BCS100:** Platform Configuration, Single Point Find Edge (βήμα-βήμα), Three-Point Find Edge (βήμα-βήμα), και ενότητα Notices με τις προφυλάξεις.\n**Infrared:** Photoelectric Switch (τεχνικά χαρακτηριστικά αισθητήρα), Wiring and Configuration (καλωδίωση), Three-point Find Edge, Precautions.\nΑυτό το υλικό αφορά κυρίως τον τεχνικό εγκατάστασης/ρύθμισης παρά τον καθημερινό χειριστή — αν χρειάζεστε κάτι συγκεκριμένο από εδώ πείτε μου ακριβώς τι θέλετε να ψάξω."
+                            },
+                            {
+                                keywords: ['regional output', 'ζωνες εξοδου', 'ζώνες εξόδου', 'motion parameter adjustment', 'ρυθμιση κινησης', 'low pass frequency', 'shortcut key', 'συντομευσεις πληκτρων', 'burn test', 'δοκιμη γηρανσης'],
+                                question: 'Τι είναι το Regional Output, Motion Parameter Adjustment, τα Shortcuts και το Burn Test;',
+                                short: "**Regional Output:** ζώνες εξόδου (π.χ. για αναρρόφηση σκόνης). **Motion Parameter Adjustment:** βαθμονόμηση επιτάχυνσης/Low Pass Frequency/ακρίβειας γωνιών. **Shortcuts:** Ctrl+A/C/V/X/Z/Y, F2-F8. **Burn Test:** δοκιμή γήρανσης νέας μηχανής.",
+                                full: "**Λοιπό Παράρτημα (§6.5-6.8):**\n• **Regional Output:** ζώνες εξόδου (π.χ. ενεργοποίηση συστήματος αναρρόφησης σκόνης σε συγκεκριμένες περιοχές τραπεζιού).\n• **Motion Parameter Adjustment:** ρύθμιση Cut/Move Acceleration, Low Pass Frequency (με πίνακα τιμών ανά επίπεδο μηχανής), Arc and Corner Precision — τεχνικές ρυθμίσεις βαθμονόμησης κίνησης, συνήθως τεχνικού εγκατάστασης.\n• **Shortcut Key:** Ctrl+A (select all) / C (copy) / V (paste) / X (cut) / Z (undo) / Y (redo), F2/F3/F4/F7/F8 για διάφορες προβολές/λειτουργίες.\n• **Burn Test:** δοκιμή γήρανσης (burn-in) για καινούργια μηχανή πριν μπει σε κανονική παραγωγή."
+                            }
+                        ]
+                    }
+                ]
             }
-        ];
+        };
 
         // "Μεσάζοντας" (Cloudflare Worker) που κρατάει το Gemini API key κρυφό
         const AI_ENDPOINT = "https://hypcypcut-ai.ramnalialexandra.workers.dev";
+
+        let currentSystem = localStorage.getItem('lc_system') || 'hypcut';
+        let currentCategoryId = null;
+
+        function setSystem(system) {
+            currentSystem = system;
+            localStorage.setItem('lc_system', system);
+            currentCategoryId = SYSTEMS[system].categories[0].id;
+            renderSystemToggle();
+            renderCategoryBar();
+            renderTopicBar();
+            document.getElementById('userInput').placeholder =
+                `Ρωτήστε οτιδήποτε σχετικά με το ${SYSTEMS[system].label}...`;
+        }
+
+        function renderSystemToggle() {
+            const activeCls = 'bg-indigo-600 text-white';
+            const inactiveCls = 'text-slate-400 hover:text-white';
+            const hyp = document.getElementById('btnHypcut');
+            const cyp = document.getElementById('btnCypcut');
+            hyp.className = 'px-3 py-1.5 rounded-full transition ' + (currentSystem === 'hypcut' ? activeCls : inactiveCls);
+            cyp.className = 'px-3 py-1.5 rounded-full transition ' + (currentSystem === 'cypcut' ? activeCls : inactiveCls);
+        }
+
+        function renderCategoryBar() {
+            const bar = document.getElementById('categoryBar');
+            bar.innerHTML = '<span class="text-slate-500 font-medium whitespace-nowrap pl-1">Κατηγορίες:</span>';
+            SYSTEMS[currentSystem].categories.forEach(cat => {
+                const btn = document.createElement('button');
+                const active = cat.id === currentCategoryId;
+                btn.className = 'whitespace-nowrap px-3 py-1.5 rounded-lg border transition ' +
+                    (active
+                        ? 'bg-indigo-600 border-indigo-500 text-white'
+                        : 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border-slate-700/80 hover:border-slate-500');
+                btn.textContent = cat.title;
+                btn.onclick = () => { currentCategoryId = cat.id; renderCategoryBar(); renderTopicBar(); };
+                bar.appendChild(btn);
+            });
+        }
+
+        function renderTopicBar() {
+            const bar = document.getElementById('topicBar');
+            bar.innerHTML = '';
+            const cat = SYSTEMS[currentSystem].categories.find(c => c.id === currentCategoryId);
+            if (!cat) return;
+            cat.topics.forEach(topic => {
+                const btn = document.createElement('button');
+                btn.className = 'whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800/60 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/50 hover:border-slate-500';
+                btn.textContent = topic.question;
+                btn.onclick = () => askPreset(topic.question);
+                bar.appendChild(btn);
+            });
+        }
 
         function askPreset(questionText) {
             document.getElementById('userInput').value = questionText;
@@ -207,7 +763,7 @@
             appendMessage(query, 'user');
             inputEl.value = '';
 
-            // 1) Πρώτα ψάχνει στην τοπική βάση γνώσης (άμεσο, χωρίς κόστος)
+            // 1) Πρώτα ψάχνει στην τοπική βάση γνώσης του επιλεγμένου συστήματος
             const kbAnswer = getKbAnswer(query);
             if (kbAnswer) {
                 setTimeout(() => appendMessage(kbAnswer, 'bot'), 300);
@@ -227,10 +783,9 @@
         function getKbAnswer(query) {
             const lowerQuery = query.toLowerCase();
             const wordCount = query.trim().split(/\s+/).filter(Boolean).length;
+            const topics = SYSTEMS[currentSystem].categories.flatMap(c => c.topics);
 
-            // Στοχευμένη σύντομη απάντηση για σύντομες/συγκεκριμένες ερωτήσεις,
-            // πλήρης αναλυτική απάντηση για εκτενέστερες/γενικές ερωτήσεις
-            for (const item of kb) {
+            for (const item of topics) {
                 if (item.keywords.some(kw => lowerQuery.includes(kw))) {
                     return wordCount <= 4 ? item.short : item.full;
                 }
@@ -242,7 +797,7 @@
             const res = await fetch(AI_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question })
+                body: JSON.stringify({ question, system: currentSystem })
             });
             if (!res.ok) throw new Error('AI request failed');
             const data = await res.json();
@@ -251,8 +806,9 @@
         }
 
         function fallbackAnswer(query) {
-            return "Δεν μπόρεσα να συνδεθώ με τον AI βοηθό αυτή τη στιγμή (πιθανόν πρόβλημα δικτύου).\n\n" +
-                   "Δοκίμασε ξανά σε λίγο, ή ρώτα με κάτι από τα βασικά θέματα του HypCut που ξέρω ήδη: *\"αλάρμ\"*, *\"μηδενικό\"*, *\"pierce\"*, *\"fly cut\"*, *\"find edge\"*, *\"lead lines\"*, *\"quick cutoff\"* ή *\"συντήρηση\"*.";
+            const sys = SYSTEMS[currentSystem].label;
+            return `Δεν μπόρεσα να συνδεθώ με τον AI βοηθό αυτή τη στιγμή (πιθανόν πρόβλημα δικτύου).\n\n` +
+                   `Δοκίμασε ξανά σε λίγο, ή διάλεξε μια κατηγορία από πάνω για να δεις τι ξέρω ήδη για το **${sys}**.`;
         }
 
         function appendMessage(text, sender) {
@@ -290,6 +846,14 @@
             bubble.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             document.getElementById('chatWindow').scrollTop = document.getElementById('chatWindow').scrollHeight;
         }
+
+        // Init
+        currentCategoryId = SYSTEMS[currentSystem].categories[0].id;
+        renderSystemToggle();
+        renderCategoryBar();
+        renderTopicBar();
+        document.getElementById('userInput').placeholder =
+            `Ρωτήστε οτιδήποτε σχετικά με το ${SYSTEMS[currentSystem].label}...`;
     </script>
 </body>
 </html>
