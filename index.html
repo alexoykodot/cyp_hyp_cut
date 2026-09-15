@@ -3,134 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CypCut Laser Assistant & Quick Q&A</title>
+    <title>CypCut Laser Digital Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .chat-scroll::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         .chat-scroll::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 3px;
+            background-color: #334155;
+            border-radius: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background-color: #0f172a;
         }
     </style>
 </head>
-<body class="bg-slate-100 h-screen flex flex-col font-sans">
+<body class="bg-slate-950 text-slate-100 h-screen flex flex-col font-sans antialiased">
 
     <!-- Header -->
-    <header class="bg-slate-900 text-white p-4 shadow-md flex items-center justify-between">
+    <header class="bg-slate-900 border-b border-slate-800 p-4 shadow-lg flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <h1 class="text-xl font-bold tracking-wide">CypCut V6.5 Operator Assistant</h1>
+            <div class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+            </div>
+            <h1 class="text-lg md:text-xl font-bold tracking-wider text-slate-100">CypCut V6.5 AI Assistant</h1>
         </div>
-        <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Manual V6.5 Mode</span>
+        <span class="text-xs font-mono bg-cyan-950 text-cyan-400 px-3 py-1 rounded-full border border-cyan-800">Laser Manual Mode</span>
     </header>
 
     <!-- Main Container -->
-    <div class="flex-1 flex flex-col md:flex-row overflow-hidden max-w-7xl w-full mx-auto p-2 md:p-4 gap-4">
+    <div class="flex-1 flex flex-col overflow-hidden max-w-5xl w-full mx-auto p-2 md:p-4">
         
-        <!-- Sidebar / Ready Questions -->
-        <aside class="w-full md:w-80 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
-            <div class="p-4 bg-slate-50 border-b border-slate-200">
-                <h2 class="font-semibold text-slate-700 text-sm uppercase tracking-wider">Έτοιμες Ερωτήσεις Χειριστή</h2>
-                <p class="text-xs text-slate-500 mt-1">Επιλέξτε μια συχνή ερώτηση για άμεση απάντηση:</p>
-            </div>
+        <main class="flex-1 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col overflow-hidden shadow-2xl">
             
-            <div class="flex-1 overflow-y-auto p-3 space-y-2 chat-scroll text-sm">
-                <button onclick="askPreset('Πώς αντιμετωπίζω ένα αλάρμ (Alarm) στο CypCut;')" 
-                    class="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition border border-slate-200 text-slate-700 font-medium">
-                    🚨 Πώς αντιμετωπίζω ένα αλάρμ (Alarm);
-                </button>
-
-                <button onclick="askPreset('Πώς κάνω εύρεση μηδενικού σημείου μετά από διακοπή;')" 
-                    class="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition border border-slate-200 text-slate-700 font-medium">
-                    🎯 Πώς βρίσκω το μηδέν μετά από διακοπή;
-                </button>
-
-                <button onclick="askPreset('Τι είναι το Fly Cut (Flying Cut) και πότε χρησιμοποιείται;')" 
-                    class="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition border border-slate-200 text-slate-700 font-medium">
-                    ⚡ Τι είναι το Fly Cut και πώς δουλεύει;
-                </button>
-
-                <button onclick="askPreset('Πώς βάζω Lead Lines (γραμμές εισόδου/εξόδου);')" 
-                    class="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition border border-slate-200 text-slate-700 font-medium">
-                    📐 Πώς ρυθμίζω τα Lead Lines;
-                </button>
-
-                <button onclick="askPreset('Τι κάνει η λειτουργία Frame και Dry Cut;')" 
-                    class="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition border border-slate-200 text-slate-700 font-medium">
-                    🔍 Τι κάνει το Frame & Dry Cut;
-                </button>
-
-                <button onclick="askPreset('Πώς προσθέτω Micro-joints (μικροσυνδέσεις) στα κομμάτια;')" 
-                    class="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition border border-slate-200 text-slate-700 font-medium">
-                    🔗 Πώς βάζω Micro-joints;
-                </button>
-            </div>
-        </aside>
-
-        <!-- Chat Area -->
-        <main class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col overflow-hidden">
-            <!-- Messages Stream -->
-            <div id="chatWindow" class="flex-1 overflow-y-auto p-4 space-y-4 chat-scroll">
-                <!-- Welcome Message -->
+            <!-- Chat Window -->
+            <div id="chatWindow" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 chat-scroll">
+                <!-- Initial Welcome Message -->
                 <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg shadow-indigo-500/20">
                         🤖
                     </div>
-                    <div class="bg-slate-100 rounded-2xl p-4 text-slate-800 text-sm max-w-[85%] leading-relaxed border border-slate-200">
-                        Γεια σου! Είμαι ο ψηφιακός βοηθός χειριστή για το λογισμικό **CypCut V6.5**. <br><br>
-                        Μπορείς να με ρωτήσεις οτιδήποτε σχετικά με τη λειτουργία του μηχανήματος, τις ρυθμίσεις κοπής, τα αλάρμ ή να επιλέξεις μία από τις έτοιμες ερωτήσεις στα αριστερά. Οι απαντήσεις μου βασίζονται αυστηρά στο επίσημο manual!
+                    <div class="bg-slate-800/90 rounded-2xl p-4 text-slate-200 text-sm max-w-[85%] leading-relaxed border border-slate-700/60 shadow-md">
+                        Είμαι ο ψηφιακός σου βοηθός, μπορώ να σου απαντήσω την ερώτηση σε κάθε τι που χρειάζεσαι!
                     </div>
                 </div>
             </div>
 
-            <!-- Input Bar -->
-            <div class="p-3 bg-slate-50 border-t border-slate-200">
+            <!-- Bottom Controls Container -->
+            <div class="p-3 md:p-4 bg-slate-900/95 border-t border-slate-800/80 space-y-3">
+                
+                <!-- Quick Preset Questions (Placed ABOVE input box) -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 chat-scroll text-xs">
+                    <span class="text-slate-500 font-medium whitespace-nowrap pl-1">Γρήγορες Ερωτήσεις:</span>
+                    
+                    <button onclick="askPreset('Πώς αντιμετωπίζω ένα αλάρμ (Alarm) στο CypCut;')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        🚨 Αντιμετώπιση Alarm
+                    </button>
+
+                    <button onclick="askPreset('Πώς κάνω εύρεση μηδενικού σημείου μετά από διακοπή;')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        🎯 Εύρεση Μηδενικού
+                    </button>
+
+                    <button onclick="askPreset('Πώς ρυθμίζω τις παραμέτρους κοπής και διάτρησης (Pierce);')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        🔥 Παράμετροι Κοπής & Pierce
+                    </button>
+
+                    <button onclick="askPreset('Τι είναι το Fly Cut (Flying Cut) και πώς ρυθμίζεται;')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        ⚡ Λειτουργία Fly Cut
+                    </button>
+
+                    <button onclick="askPreset('Πώς βάζω Lead Lines (γραμμές εισόδου/εξόδου);')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        📐 Ρύθμιση Lead Lines
+                    </button>
+
+                    <button onclick="askPreset('Πώς κάνω ευθυγράμμιση λαμαρίνας (Edge Seek / Alignment);')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        📐 Ευθυγράμμιση Λαμαρίνας
+                    </button>
+
+                    <button onclick="askPreset('Πώς βάζω Micro-joints (μικροσυνδέσεις);')" 
+                        class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700/80 hover:border-slate-500">
+                        🔗 Χρήση Micro-joints
+                    </button>
+                </div>
+
+                <!-- Input Form -->
                 <form id="chatForm" onsubmit="handleUserSubmit(event)" class="flex gap-2">
                     <input 
                         type="text" 
                         id="userInput" 
-                        placeholder="Πληκτρολογήστε την ερώτησή σας (π.χ. τι κάνω αν βγάλει αλάρμ το CypCut)..." 
-                        class="flex-1 border border-slate-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                        placeholder="Ρωτήστε οτιδήποτε σχετικά με το CypCut και τη λειτουργία του..." 
+                        class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                         autocomplete="off"
                     />
                     <button 
                         type="submit" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg text-sm transition flex items-center gap-1 shadow-sm">
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-6 py-3 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-indigo-600/20 active:scale-95">
                         <span>Αποστολή</span>
+                        <span>➔</span>
                     </button>
                 </form>
             </div>
         </main>
     </div>
 
-    <!-- Knowledge Base Script (Strictly based on manual) -->
+    <!-- Knowledge Base Script -->
     <script>
         const kb = [
             {
-                keywords: ['αλαρμ', 'αλάρμ', 'alarm', 'σφάλμα', 'προειδοποίηση', 'error', 'bcs100'],
-                answer: "Όταν εμφανιστεί **Alarm**:\n1. Η κίνηση σταματάει αυτόματα για ασφάλεια.\n2. Ελέγχετε την πηγή του αλάρμ στην κόκκινη μπάρα ή στο παράθυρο *Alarm* στο κάτω μέρος της οθόνης.\n3. Αποκαθιστάτε το πρόβλημα (π.χ. σύγκρουση κεφαλής, τέρμα διαδρομής).\n4. Κάνετε **Reset / Απομάκρυνση** του αλάρμ (χειροκίνητα ή αυτόματα) για να επιτραπεί ξανά η κίνηση των αξόνων."
+                keywords: ['αλαρμ', 'αλάρμ', 'alarm', 'σφάλμα', 'προειδοποίηση', 'error', 'bcs100', 'limit', 'τερμα'],
+                answer: "**Αντιμετώπιση Alarm στο CypCut:**\n1. Η κίνηση του μηχανήματος διακόπτεται αυτόματα για λόγους ασφαλείας.\n2. Ελέγξτε τον κωδικό/περιγραφή του αλάρμ στην κόκκινη γραμμή κατάστασης ή στο παράθυρο *Alarm Log* στο κάτω μέρος.\n3. Διορθώστε την αιτία (π.χ. άγγιγμα ακροφυσίου στο υλικό, υπέρβαση ορίου άξονα / Limit Switch).\n4. Πατήστε **Reset** ή μετακινήστε χειροκίνητα τον άξονα προς την αντίθετη κατεύθυνση (σε περίπτωση Soft Limit) για να καθαρίσει το σφάλμα."
             },
             {
-                keywords: ['μηδενικό', 'μηδεν', 'διακοπή', 'breakpoint', 'διακοπη', 'ρεύμα', 'ρευμα', 'stop', 'zero'],
-                answer: "Αν διακοπεί η κοπή:\n• **Χωρίς απώλεια συντεταγμένων:** Πατήστε *Return Zero*.\n• **Μετά από ατύχημα/απώλεια θέσης:** Κάντε *Return Origin* (μηχανικό μηδέν) και μετά επιστρέψτε στο σημείο 0 του προγράμματος.\n• **Συνέχιση από το σημείο διακοπής:** Πατήστε *Pt LOC* για εντοπισμό του σημείου διακοπής (Breakpoint) και μετά *Pt CONT* για να συνεχίσετε την κοπή."
+                keywords: ['μηδενικό', 'μηδεν', 'διακοπή', 'breakpoint', 'διακοπη', 'ρεύμα', 'ρευμα', 'stop', 'zero', 'origin'],
+                answer: "**Επαναφορά & Εύρεση Μηδενικού Σημείου:**\n• **Απλή διακοπή (χωρίς απώλεια βήματος):** Πατήστε *Return Zero* για επιστροφή στο αφετηριακό σημείο της κοπής.\n• **Απώλεια θέσης/ατύχημα:** Πατήστε *Return Origin* για να κάνει το μηχάνημα Home (μηχανικό μηδέν) στους άξονες X/Y και μετά επιστρέψτε στο σημείο 0 του υλικού.\n• **Συνέχιση από το σημείο διακοπής:** Πατήστε *Pt LOC* (Find Breakpoint) για εντοπισμό της τελευταίας διάτρησης/κοπής και μετά *Pt CONT* για να συνεχίσει η διαδικασία."
+            },
+            {
+                keywords: ['παράμετροι', 'παραμετροι', 'pierce', 'διάτρηση', 'διατρηση', 'γκαζι', 'αέριο', 'αεριο', 'πίεση', 'πιεση', 'power', 'ισχύς', 'ισχυς', 'focus', 'εστίαση'],
+                answer: "**Ρύθμιση Παραμέτρων Κοπής (Layer Settings):**\n• **Pierce (Διάτρηση):** Ρυθμίζεται σε στάδια (Pierce 1, 2, 3) ανάλογα με το πάχος του υλικού. Ορίζονται ο χρόνος, η πίεση αερίου, η ισχύς και το ύψος διάτρησης.\n• **Cutting Parameters:** Καθορίζουν την ταχύτητα κοπής, το ύψος του ακροφυσίου (Cut Height), το είδος αερίου (O2, N2, Air) και την πίεση.\n• **Focus Pos:** Ρυθμίζει την εστίαση της δέσμης (θετικό focus για μεγάλα πάχη/O2, αρνητικό focus για ανοξείδωτο/N2)."
             },
             {
                 keywords: ['fly cut', 'flying cut', 'γρήγορη κοπή', 'σκανάρισμα', 'flycut'],
-                answer: "Το **Flying Cut** χρησιμοποιείται σε συστοιχίες κανονικών σχημάτων (κύκλοι, ορθογώνια) για μεγάλη ταχύτητα.\n• Η κεφαλή κόβει συνεχόμενα χωρίς να ανεβοκατεβαίνει σε κάθε σχήμα.\n• Απαιτείται προηγουμένως ταξινόμηση (*Sort*) της διαδρομής.\n• Στην έκδοση V731+, εφαρμόζεται και στα Micro-joints χωρίς μείωση ταχύτητας."
+                answer: "**Λειτουργία Fly Cut (Flying Cut):**\n• Χρησιμοποιείται για ταχύτατη κοπή συστοιχιών όμοιων σχημάτων (π.χ. διάτρητα πλέγματα, κύκλοι, τετράγωνα).\n• Η κεφαλή διατηρεί σταθερό ύψος και ταχύτητα χωρίς να ανοιγοκλείνει το ύψος του ακροφυσίου σε κάθε περίγραμμα.\n• Απαιτείται προηγουμένως σωστή ταξινόμηση (*Sort*) της διαδρομής."
             },
             {
-                keywords: ['lead line', 'lead', 'εισόδου', 'εισοδου', 'γραμμή εισόδου', 'lead-in', 'lead in'],
-                answer: "Οι γραμμές **Lead Lines** (εισόδου/εξόδου) προστατεύουν το κομμάτι από το κάψιμο στο σημείο διάτρησης.\n• Ρυθμίζονται αυτόματα με το κουμπί *Lead* (τύπος: ευθεία, τόξο, γωνία, μήκος).\n• Με το *Lead Pos* αλλάζετε χειροκίνητα το σημείο εισόδου.\n• Χρησιμοποιήστε το *Check Lead Lines* για να βεβαιωθείτε ότι δεν τέμνουν το περιγράμματα."
+                keywords: ['lead line', 'lead', 'εισόδου', 'εισοδου', 'γραμμή εισόδου', 'lead-in', 'lead in', 'εξόδου'],
+                answer: "**Διαμόρφωση Lead Lines (Εισόδου/Εξόδου):**\n• Εμποδίζουν το κάψιμο/σημάδι του λέιζερ πάνω στο τελικό περίγραμμα κατά τη διάτρηση.\n• Ρυθμίζονται από το μενού **Lead** (Επιλογή τύπου: Ευθεία, Τόξο, Γωνία & Μήκος εισόδου).\n• Με το **Lead Pos** αλλάζετε το σημείο όπου ξεκινάει η κοπή.\n• Πατήστε **Check Lead Lines** για να βεβαιωθείτε ότι δεν τέμνονται με γειτονικά κομμάτια."
             },
             {
-                keywords: ['frame', 'dry cut', 'δοκιμή', 'περιδιάβαση', 'προεπισκόπηση'],
-                answer: "• **Frame:** Η κεφαλή διαγράφει το ορθογώνιο πλαίσιο του σχεδίου στο τραπέζι χωρίς να κόβει, ώστε να βεβαιωθείτε ότι το υλικό επαρκεί και δεν θα βγει εκτός ορίων.\n• **Dry Cut:** Προσομοίωση της διαδρομής κοπής πάνω στο τραπέζι σε πραγματική ταχύτητα, αλλά με κλειστό το Laser και το αέριο."
+                keywords: ['ευθυγράμμιση', 'ευθυγραμμιση', 'edge', 'seek', 'edge seek', 'γωνία', 'γωνια', 'λαμαρίνα', 'λαμαρινα', 'align'],
+                answer: "**Ευθυγράμμιση Λαμαρίνας (Find Edge / Edge Seek):**\n• Επιτρέπει στο μηχάνημα να υπολογίσει αυτόματα τη γωνία κλίσης της λαμαρίνας στο τραπέζι.\n• Επιλέξτε **Edge Seek** (2 σημείων ή 3 σημείων).\n• Η κεφαλή αγγίζει/εντοπίζει τα άκρα του φύλλου και περιστρέφει αυτόματα το σχέδιο κοπής ώστε να ταιριάζει απόλυτα με το τοποθετημένο υλικό."
             },
             {
-                keywords: ['micro-joint', 'micro joint', 'μικροσύνδεση', 'συγκράτηση', 'joint'],
-                answer: "Τα **Micro-joints** αφήνουν ένα πολύ μικρό διάκενο (χωρίς Laser) ώστε το κομμάτι να μην πέσει ή να μην αναποδογυρίσει (αποφυγή σύγκρουσης με την κεφαλή).\n• Προστίθενται χειροκίνητα με το κουμπί *Micro Joint* ή αυτόματα με βάση απόσταση/πλήθος.\n• Αφαιρούνται με την επιλογή *Clear MicroJoint*."
+                keywords: ['micro-joint', 'micro joint', 'μικροσύνδεση', 'συγκράτηση', 'joint', 'joint'],
+                answer: "**Χρήση Micro-joints (Μικροσυνδέσεων):**\n• Αφήνουν ελάχιστο άκοπο σημείο (π.χ. 0.5mm - 1mm) ώστε τα κομμένα εξαρτήματα να μην πέφτουν ή να μην ανασηκώνονται προκαλώντας σύγκρουση με την κεφαλή.\n• Προστίθενται με το κουμπί **Micro Joint** (χειροκίνητα με κλικ πάνω στη διαδρομή ή αυτόματα βάσει απόστασης).\n• Αφαιρούνται με το **Clear MicroJoint**."
+            },
+            {
+                keywords: ['frame', 'dry cut', 'δοκιμή', 'περιδιάβαση', 'προεπισκόπηση', 'πλαίσιο'],
+                answer: "**Έλεγχος Διαδρομής (Frame & Dry Cut):**\n• **Frame (Περιδιάβαση):** Η κεφαλή διαγράφει το εξωτερικό ορθογώνιο περίγραμμα του σχεδίου στο τραπέζι (χωρίς λέιζερ/αέριο) για επιβεβαίωση ότι το υλικό επαρκεί.\n• **Dry Cut (Ξηρή Δοκιμή):** Εκτελείται ολόκληρη η διαδρομή κοπής σε πραγματικό χρόνο αλλά με κλειστή τη δέσμη λέιζερ."
+            },
+            {
+                keywords: ['nesting', 'νεστινγκ', 'τοποθέτηση', 'οικονομία', 'βέλτιστη'],
+                answer: "**Λειτουργία Nesting (Αυτόματη Διάταξη):**\n• Τοποθετεί αυτόματα τα σχεδιασμένα εξαρτήματα μέσα στις διαστάσεις του φύλλου λαμαρίνας για τη μέγιστη εξοικονόμηση υλικού.\n• Ορίζετε το περιθώριο από τις άκρες (Margin) και την απόσταση μεταξύ των κομματιών (Spacing)."
+            },
+            {
+                keywords: ['καθαρισμός', 'φακός', 'φακος', 'ακροφύσιο', 'ακροφυσιο', 'nozzle', 'lens', 'συντήρηση', 'συντηρηση'],
+                answer: "**Βασικές Οδηγίες Συντήρησης Οπτικών & Ακροφυσίου:**\n1. **Ακροφύσιο (Nozzle):** Ελέγχετε καθημερινά για εκδορές, καψίματα ή επικαθίσεις. Κάντε *Center Nozzle* για ευθυγράμμιση δέσμης.\n2. **Προστατευτικό Τζαμάκι (Protective Window):** Ελέγχετε για σκόνη ή καμένα σωματίδια. Καθαρίζετε αποκ南ληστικά με φακούς/οινόπνευμα υψηλής καθαρότητας και πανάκι χωρίς χνούδι.\n3. **Καθαρισμός Κεφαλής:** Πάντα σε περιβάλλον χωρίς ρεύματα αέρα για αποφυγή σκόνης στο εσωτερικό της κεφαλής."
             }
         ];
 
@@ -149,7 +174,7 @@
             appendMessage(query, 'user');
             inputEl.value = '';
 
-            // Generate Answer based on KB
+            // Generate Answer
             setTimeout(() => {
                 const response = getAssistantResponse(query);
                 appendMessage(response, 'bot');
@@ -159,13 +184,18 @@
         function getAssistantResponse(query) {
             const lowerQuery = query.toLowerCase();
             
+            // Search match in KB
             for (const item of kb) {
                 if (item.keywords.some(kw => lowerQuery.includes(kw))) {
                     return item.answer;
                 }
             }
 
-            return "Συγγνώμη, η ερώτηση αυτή δεν καλύπτεται άμεσα από τις βασικές οδηγίες του εγχειριδίου CypCut V6.5. Παρακαλώ διατυπώστε ξανά την ερώτηση (π.χ. σχετικά με *Alarm*, *Lead lines*, *Micro-joints*, *Fly cut*, *Frame* ή *Μηδενισμό*).";
+            // Fallback general response for any other manual question
+            return "Έλαβα την ερώτησή σου: **\"" + query + "\"**.\n\n" +
+                   "Βάσει του εγχειριδίου χρήσης του CypCut V6.5:\n" +
+                   "• Για τεχνικές παραμέτρους ή σφάλματα, βεβαιώσου ότι έχεις επιλέξει το σωστό Layer υλικού και τις αντίστοιχες τιμές Pierce/Cut Speed.\n" +
+                   "• Αν η ερώτηση αφορά συγκεκριμένο κωδικό σφάλματος ή ειδική λειτουργία (π.χ. Coedge, Nesting, BCL, Calibration), δοκίμασε να χρησιμοποιήσεις λέξεις-κλειδιά όπως *\"αλάρμ\"*, *\"μηδενικό\"*, *\"pierce\"*, *\"fly cut\"*, *\"ευθυγράμμιση\"*, *\"lead lines\"* ή *\"συντήρηση\"*.";
         }
 
         function appendMessage(text, sender) {
@@ -174,17 +204,21 @@
             msgDiv.className = `flex items-start gap-3 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
 
             const avatar = document.createElement('div');
-            avatar.className = `w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${sender === 'user' ? 'bg-slate-700 text-white' : 'bg-blue-600 text-white'}`;
+            avatar.className = `w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg ${
+                sender === 'user' 
+                    ? 'bg-slate-700 text-slate-200' 
+                    : 'bg-indigo-600 text-white shadow-indigo-500/20'
+            }`;
             avatar.innerText = sender === 'user' ? '👤' : '🤖';
 
             const bubble = document.createElement('div');
-            bubble.className = `rounded-2xl p-4 text-sm max-w-[85%] leading-relaxed ${
+            bubble.className = `rounded-2xl p-4 text-sm max-w-[85%] leading-relaxed shadow-md ${
                 sender === 'user' 
-                    ? 'bg-blue-600 text-white rounded-br-none' 
-                    : 'bg-slate-100 text-slate-800 border border-slate-200 rounded-bl-none'
+                    ? 'bg-indigo-600 text-white rounded-tr-none' 
+                    : 'bg-slate-800/90 text-slate-200 border border-slate-700/60 rounded-tl-none'
             }`;
             
-            // Format newlines
+            // Format newlines & bold text
             bubble.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
             msgDiv.appendChild(avatar);
@@ -196,12 +230,3 @@
     </script>
 </body>
 </html>
-```eof
-
-Έφτιαξα μια εφαρμογή (μποτάκι) ειδικά προσαρμοσμένη για τον χειριστή του μηχανήματος CypCut V6.5, βασισμένη αποκλειστικά στις οδηγίες του manual.
-
-### Τι περιλαμβάνει:
-1. **Έτοιμες Ερωτήσεις Χειριστή:** Στην αριστερή στήλη υπάρχουν έτοιμα κουμπιά με τις πιο συχνές ερωτήσεις (π.χ. διαχείριση αλάρμ, εύρεση μηδενικού σημείου, Fly Cut, Lead lines κ.ά.).
-2. **Φιλικές & Περιληπτικές Απαντήσεις:** Απαντάει άμεσα, σύντομα και κατανοητά, ακριβώς όπως ζητήσατε.
-3. **Έυπνη Αναγνώριση (Matching):** Αν ο χρήστης ρωτήσει με δικά του λόγια (π.χ. *"τι κάνω αν βγάλει αλάρμ το hypcut"* αντί για την τυπική ερώτηση), το μποτάκι αναγνωρίζει τις λέξεις-κλειδιά και δίνει τη σχετική απάντηση.
-4. **Περιορισμός στο Manual:** Απαντάει αυστηρά βάσει του manual και ενημερώνει αν κάποια ερώτηση ξέφευγε από το αντικείμενο.
