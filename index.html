@@ -6,6 +6,28 @@
     <title>Lasercutter Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        body { height: auto !important; min-height: 100vh; }
+        body > div { overflow: visible !important; }
+        #chatWindow { flex: none; height: 45vh; min-height: 240px; }
+        #categoryBar { flex-wrap: wrap; overflow: visible; }
+        #topicBar {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            overflow: visible;
+            align-items: stretch;
+        }
+        #categoryBar button, #topicBar button {
+            min-width: 0;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            text-align: left;
+        }
+        #topicBar button { padding-top: 8px; padding-bottom: 8px; }
+        #userInput { min-width: 0; }
+        @media (max-width: 767px) {
+            #topicBar { grid-template-columns: minmax(0, 1fr); }
+        }
         .chat-scroll::-webkit-scrollbar {
             width: 6px;
             height: 6px;
