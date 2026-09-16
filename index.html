@@ -780,13 +780,22 @@
             }
         }
 
+        function normalizeQuery(query) {
+            return query.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase().replace(/\u03c2/g, '\u03c3')
+                .replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+        }
+
         function getKbAnswer(query) {
-            const lowerQuery = query.toLowerCase();
+            const lowerQuery = normalizeQuery(query);
             const wordCount = query.trim().split(/\s+/).filter(Boolean).length;
             const topics = SYSTEMS[currentSystem].categories.flatMap(c => c.topics);
 
+            const exactTopic = topics.find(item => normalizeQuery(item.question) === lowerQuery);
+            if (exactTopic) return exactTopic.full;
+
             for (const item of topics) {
-                if (item.keywords.some(kw => lowerQuery.includes(kw))) {
+                if (item.keywords.some(kw => lowerQuery.includes(normalizeQuery(kw)))) {
                     return wordCount <= 4 ? item.short : item.full;
                 }
             }
