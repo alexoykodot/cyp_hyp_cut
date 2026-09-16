@@ -6,6 +6,12 @@
     <title>Lasercutter Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .manual-gallery { display: grid; gap: 16px; margin-top: 16px; }
+        .manual-gallery figure { min-width: 0; margin: 0; }
+        .manual-gallery a { display: block; border-radius: 4px; overflow: hidden; background: white; }
+        .manual-gallery a:focus-visible { outline: 3px solid #22d3ee; outline-offset: 3px; }
+        .manual-gallery img { display: block; width: 100%; height: auto; max-height: 360px; object-fit: contain; }
+        .manual-gallery figcaption { margin-top: 4px; font-size: 12px; color: #94a3b8; }
         body { height: auto !important; min-height: 100vh; }
         body > div { overflow: visible !important; }
         #chatWindow { flex: none; height: 45vh; min-height: 240px; }
@@ -788,7 +794,11 @@
             // 1) Πρώτα ψάχνει στην τοπική βάση γνώσης του επιλεγμένου συστήματος
             const kbAnswer = getKbAnswer(query);
             if (kbAnswer) {
-                setTimeout(() => appendMessage(kbAnswer, 'bot'), 300);
+                const answerSystem = currentSystem;
+                setTimeout(() => {
+                    const bubble = appendMessage(kbAnswer, 'bot');
+                    appendManualImages(bubble, kbAnswer, answerSystem);
+                }, 300);
                 return;
             }
 
@@ -886,5 +896,6 @@
         document.getElementById('userInput').placeholder =
             `Ρωτήστε οτιδήποτε σχετικά με το ${SYSTEMS[currentSystem].label}...`;
     </script>
+    <script src='manual-images.js'></script>
 </body>
 </html>
